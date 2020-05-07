@@ -1,0 +1,16 @@
+<!--Custom-Component/subscribe/subscribe.wxml-->
+<!-- 消息订阅 -->
+<van-dialog
+    use-slot
+    title="订阅消息提醒"
+    show="{{ showAuth }}"
+    show-cancel-button
+    bind:cancel="onCancel"
+    bind:confirm="subscribeMessage"
+>
+  <view style="width:100%;display:flex;justify-content:center;align-items:center;padding:10px;">
+      <image src="../../img/通知.png" style="width:40px;" mode="widthFix"/>
+  </view>
+</van-dialog>
+
+

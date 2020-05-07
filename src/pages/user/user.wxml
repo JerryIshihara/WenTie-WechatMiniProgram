@@ -1,0 +1,61 @@
+<!--pages/user/user.wxml-->
+<!-- 背景波浪效果 -->
+<!-- <wave-background></wave-background> -->
+<!-- <view class="user-background"></view> -->
+
+<view class="user-photo-info-wrp">
+    <view class="user-photo-info">
+        <!-- 头像 & 昵称-->
+        <view class="user-avatar-nickname-wrp">
+            <view class="user-photo">
+                <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"/>
+            </view>
+            <text wx:if="{{ !userInfo }}" class="userinfo-nickname" bindtap="authorizeAgain">请登录</text>
+            <!-- 基本信息栏 -->
+            <view wx:if="{{ userInfo }}" class="user-basic-info-wrp">
+              <view class=".user-buy-sell">
+                <view style="margin-right:20px">
+                  <text style="font-size:13px;font-weight:400;margin-right:2px;color:#5bbd5e">赚:</text>
+                  <text style="font-size:20px;font-weight:700;color:#5bbd5e">${{ sumSold }}</text>
+                </view>
+                <!-- <view>
+                  <text style="font-size:13px;font-weight:400;margin-right:2px;;color:#ff737b">买:</text>
+                  <text style="font-size:20px;font-weight:700;color:#ff737b">$100.00</text>
+                </view> -->
+              </view>
+              <view class="userinfo-nickname-wrp">
+                  <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+                  <text style="font-size:12px;font-weight:light;margin:5px;color:#7a7a7a30;">|</text>
+                  <block wx:if="{{userInfo.gender == 1}}">
+                    <image class="user-gender" src="../../img/男.png" />
+                  </block>
+                  <block wx:else>
+                    <image class="user-gender" src="../../img/女.png" />
+                  </block>
+              </view>
+            </view>
+        </view>
+       
+    </view>    
+</view>
+
+<van-tabs active="{{ active }}" color="{{ themeColor }}" bind:change="onChangeTab" border="{{false}}" sticky swipeable>
+    <!-- TAB分类 -->
+    <block wx:for="{{category}}" wx:key="key" wx:for-item="title">
+        <van-tab title="{{title}}">
+            <view 
+                wx:if="{{ loading && userInfo }}" 
+                style="width:100%;height:300px;display:flex;justify-content:center;align-items:center;"
+            >
+                <van-loading color="{{themeColor}}" size="24px" vertical>加载中...</van-loading>
+            </view>
+            <empty show="{{ !loading && (items == null || items.length == 0) }}" />
+            <grid-card wx:if="{{ userInfo }}" items="{{items}}" type="{{ title }}" bind:removeCollect="onPullDownRefresh" userGps="{{ gps }}"></grid-card>
+        </van-tab>
+    </block>
+</van-tabs>
+
+
+
+<!-- 授权 -->
+<authorize show="{{ !userInfo && authorizeShow }}" bind:success="bindSuccess" />

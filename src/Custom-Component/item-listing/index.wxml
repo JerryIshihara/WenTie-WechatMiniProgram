@@ -1,0 +1,24 @@
+<!--Custom-Component/item-listing/index.wxml-->
+<!-- 商品卡片 -->
+<block wx:for="{{items}}" wx:key="key">
+    <van-card 
+        custom-class="card-wrp"
+        thumb-class="thumb"
+        data-item="{{item}}" 
+        bindtap="onTap"
+        title="{{item.title}}"
+        desc="{{item.description}}"
+        price="{{item.price_offer}}"
+        origin-price="{{item.price_origin}}"
+        currency="$"
+        thumb="{{item.images[0]}}"
+        thumb-mode="aspectFill"
+        num="距离"
+        lazy-load="{{true}}">
+        
+        <!-- <view slot="bottom">
+            <van-button icon="good-job" size="mini" custom-class="spliter" plain round>点赞</van-button>
+            <van-button icon="bookmark" size="mini" plain round>收藏</van-button>
+        </view> -->
+    </van-card>
+</block> 

@@ -1,0 +1,17 @@
+<!--Custom-Component/authorize/authorize.wxml-->
+<!-- 授权 -->
+<van-dialog
+    use-slot
+    title="授权信息"
+    show="{{ show }}"
+    show-cancel-button
+    confirm-button-open-type="getUserInfo"
+    bind:cancel="onCancel"
+    bind:getuserinfo="syncGlobal"
+>
+  <view style="width:100%;display:flex;justify-content:center;align-items:center;padding:10px;">
+      <image src="../../img/问帖.png" style="width:40px;" mode="widthFix"/>
+  </view>
+</van-dialog>
+
+

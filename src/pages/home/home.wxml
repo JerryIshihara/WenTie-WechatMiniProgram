@@ -1,0 +1,35 @@
+<!--pages/home/home.wxml-->
+<van-search 
+    shape="round" 
+    placeholder="搜索商品" 
+    value="{{ searchValue }}" 
+    bind:change="onChangeSearch"
+    bind:blur="closeSearch" 
+    bind:search="search"
+/>
+<!-- <block wx:if="{{searchShow}}">
+    <view class="search-option" catchtap="closeSearch" catchtouchmove="noMove">
+    </view>
+</block> -->
+
+<!-- 分类栏 -->
+<van-tabs active="{{active}}" border="{{false}}" color="{{themeColour}}" sticky animated bind:change="tab_change">
+    <block wx:for="{{category}}" wx:key="key" wx:for-item="title">
+        <van-tab title="{{title}}">
+            <!-- <cust-home-swiper wx:if="{{title=='推荐'}}"></cust-home-swiper>
+            <block wx:if="{{!loading}}">
+              <item-listing items="{{ items }}"></item-listing>
+            </block> -->
+            <block wx:if="{{loading}}">
+                <view class="loading-wrp">
+                  <van-loading color="{{themeColour}}" />
+                </view>
+            </block>
+            <empty show="{{ !loading && (items == null || items.length == 0) }}" />
+            <grid-card items="{{items}}" type="{{ '' }}" userGps="{{ gps }}"></grid-card>
+        </van-tab>
+    </block>
+</van-tabs>
+
+<!-- 授权 -->
+<authorize show="{{ !userInfo }}" bind:success="onReady" />

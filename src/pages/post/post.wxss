@@ -1,0 +1,153 @@
+/* pages/post/post.wxss */
+page {
+  background: #f8f8f8;
+}
+.post-inline-block-wrp{
+    display: inline-block;
+}
+.post-scroll-photo {
+    height: 120px;
+    margin-top: 10px;
+}
+.post-images {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    margin: 10px 0px;
+    background: white;
+}
+
+.post-image-wrap {
+    display: inline-block;
+    margin: 10px;
+}
+.post-image-cover {
+    display: inline-block;
+    position: relative;
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+}
+.post-image {
+    height: 100px;
+    width: 100px;
+}
+.image-cancel-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.644);
+}
+.cancel-button {
+    width: 20px;
+    height: 20px;
+}
+.cover-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.644);
+}
+.cover-image-text {
+    font-size: 14px;
+    color: white;
+}
+
+.post-add-wrp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    background: #f8f8f8;
+    margin: 10px;
+}
+.post-add-icon {
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+}
+.post-add-text {
+    display: flex;
+    font-weight: light;
+    font-size: 13px;
+}
+
+.post-name-placeholder {
+    font-weight: light;
+}
+.post-item-description-wrp {
+    display: flex;
+    position: relative;
+    z-index: -99;
+    width: 100%;
+    height: 150px;
+    background: white;
+}
+.post-item-description {
+    display: flex;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: light;
+}
+.post-description-placeholder {
+    font-size: 14px;
+    color: #999;
+    font-weight: light;
+}
+.post-input-wrp {
+    margin-top: 10px;
+}
+
+.post-button-wrp {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    background: white;
+}
+.post-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 40px;
+    margin: 10px;
+}
+.post-button-text {
+    display: flex;
+    color: white;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.post-clear-photo-wrp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.post-clear-photo {
+    display: flex;
+    font-size: 12px;
+    color: #8a8a8a;
+    font-weight: light;
+}
+

@@ -1,0 +1,75 @@
+<!--Custom-Component/grid-card/grid-card.wxml-->
+
+<wxs module="util" src="../../utils/util.wxs"></wxs>
+
+
+<view style="display:flex;flex-direction:row;flex-wrap:wrap;width:100%;justify-content:space-around">
+	<!-- 左列 -->
+	<view wx:for="{{ 2 }}" wx:for-item="mod" wx:key="key" style="display:flex;flex-direction:column;flex-wrap:wrap;width:48%;margin:1px;">
+		<!-- 分类下的物品 -->
+		<view style="display:flex;flex-direction:column;width:100%;background-color:white;margin:3px 0px;" wx:for="{{ items }}" wx:for-item="item" wx:key="key" wx:for-index="index" bindtap="onTap" data-item="{{ type == '卖出' ? item.item :item }}" wx:if="{{index%2==mod}}">
+			<!-- 图片 -->
+			<image class="thumb" src="{{type == '卖出' ? item.item.images[0] : item.images[0]}}" mode="widthFix" lazy-load="true" />
+			<!-- 标题 -->
+			<view class="title-wrp">
+					<text class="title" style="font-size:15px;">{{type == '卖出' ? item.item.title : item.title}}</text>
+			</view>
+			<!-- 信息 -->
+			<view class="title-wrp">
+				<view style="display:flex;align-items:center;padding: 3px 8px;">
+					<text style="color:#D84E43;font-size:10px">$</text>
+					<text class="price" style="color:#D84E43;">{{type == '卖出' ? item.item.price_offer : item.price_offer}}</text>
+				</view>
+				<view style="display:flex;align-items:center;padding:3px 10px;">
+					<text style="font-size:12px;color:#707070;">{{type == '卖出' ? '' : util.getDistance(item.gps, userGps)}}</text>
+				</view>
+			</view>
+			<!-- 头像 -->
+			<view class="title-wrp" style="margin-bottom:5px;" wx:if="{{ type != '卖出' }}">
+				<view style="display:flex;align-items:center;padding:3px 8px;">
+					<image style="border-radius:50%;width:30px;height:30px;margin-right:5px;" src="{{item.userInfo.avatarUrl}}" />
+					<block wx:if="{{item.userInfo.gender == 1}}">
+						<image style="width:10px;height:10px;" src="../../img/male.png" />
+					</block>
+					<block wx:else>
+						<image style="width:10px;height:10px;" src="../../img/female.png" />
+					</block>
+				</view>
+				<view style="display:flex;align-items:center;padding: 3px 10px;">
+					<image style="width:15px;height:15px;margin-right:3px;" src="../../img/attention.png" />
+					<text style="font-size:12px;color:#707070;margin-right:3px;">{{item.num_seen}}</text>
+					<image style="width:15px;height:15px;margin-right:3px;" src="../../img/star.png" />
+					<text style="font-size:12px;color:#707070;margin-right:3px;">{{item.num_collected}}</text>
+					<image style="width:15px;height:15px;margin-right:3px;" src="../../img/share.png" />
+					<text style="font-size:12px;color:#707070">{{item.num_share}}</text>
+				</view>
+			</view>
+			<!-- 买家 -->
+			<view class="title-wrp" style="margin-bottom:5px;" wx:if="{{ type == '卖出' }}">
+				<view style="display:flex;align-items:center;padding:3px 8px;">
+					<text style="font-size:12px;color:#707070;margin-right:5px;">买家:</text>
+					<image style="border-radius:50%;width:30px;height:30px;margin-right:5px;" src="{{item.userInfo.avatarUrl}}" />
+					<text class="buyerName">{{item.userInfo.nickName}}</text>
+					<!-- <text style="font-size:12px;font-weight:light;margin:5px;color:#7a7a7a30;">|</text>
+                    <block wx:if="{{item.userInfo.gender == 1}}">
+                      <image style="width:10px;height:10px;" src="../../img/male.png" />
+                    </block>
+                    <block wx:else>
+                      <image style="width:10px;height:10px;" src="../../img/female.png" />
+                    </block> -->
+				</view>
+				<view />
+			</view>
+			<!-- 收藏 -->
+			<view class="title-wrp" style="margin-bottom:5px;" wx:if="{{ type == '收藏' }}">
+				<view />
+				<view style="display:flex;align-items:center;padding:3px 10px;">
+					<van-button round plain size="small" color="#515151" data-item="{{ item }}" catchtap="removeCollect">
+						<text style="font-family:helvetica">取消收藏</text>
+					</van-button>
+				</view>
+			</view>
+			<!-- </van-grid-item> -->
+		</view>
+	</view>
+</view>

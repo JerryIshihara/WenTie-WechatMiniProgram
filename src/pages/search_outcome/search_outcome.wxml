@@ -1,0 +1,79 @@
+<!--pages/search_outcome/search_outcome.wxml-->
+<van-search shape="round" value="{{ searchValue }}" placeholder="搜索商品" bind:search="onSearch" bind:blur="closeSearch" bind:change="onChangeSearch" />
+
+
+<!-- 过滤 -->
+<!-- <view class="outcome-filter-wrp" bindtap="onTapFilter">
+    <view class="filter-tag-wrp" id="价格">
+        <text class="filter-tag-text" id="价格">价格</text>
+        <block wx:if="{{priceShow}}">
+            <van-icon name="arrow-down" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+        <block wx:else>
+            <van-icon name="arrow" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+    </view>
+    <view class="filter-tag-wrp" id="地区">
+        <text class="filter-tag-text" id="地区">地区</text>
+        <block wx:if="{{areaShow}}">
+            <van-icon name="arrow-down" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+        <block wx:else>
+            <van-icon name="arrow" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+    </view>
+    <view class="filter-tag-wrp" id="发布时间">
+        <text class="filter-tag-text" id="发布时间">发布时间</text>
+        <block wx:if="{{timeShow}}">
+            <van-icon name="arrow-down" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+        <block wx:else>
+            <van-icon name="arrow" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+    </view>
+    <view class="filter-tag-wrp" id="综合">
+        <text class="filter-tag-text" id="综合">综合</text>
+        <block wx:if="{{allShow}}">
+            <van-icon name="arrow-down" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+        <block wx:else>
+            <van-icon name="arrow" size="20rpx" color="#777777" style="margin-left:10px;"/>
+        </block>
+    </view>   
+</view> -->
+<!-- 蒙层-filter选项 -->
+<!-- <block wx:if="{{priceShow}}">
+    <view class="filter-wrp" catchtap="close" catchtouchmove="noMove">
+        <van-picker
+            columns="{{ priceColumn }}"
+            bind:change="onChange"
+        />
+    </view>
+</block>
+<block wx:if="{{areaShow}}">
+    <view class="filter-wrp" catchtap="close" catchtouchmove="noMove">
+        <van-picker
+            columns="{{ areaColumn }}"
+            bind:change="onChange"
+        />
+    </view>
+</block><block wx:if="{{timeShow}}">
+    <view class="filter-wrp" catchtap="close" catchtouchmove="noMove">
+        <van-picker
+            columns="{{ timeColumn }}"
+            bind:change="onChange"
+        />
+    </view>
+</block><block wx:if="{{allShow}}">
+    <view class="filter-wrp" catchtap="close" catchtouchmove="noMove">
+        <van-picker
+            columns="{{ allColumn }}"
+            bind:change="onChange"
+        />
+    </view>
+</block> -->
+<view wx:if="{{ loading  }}" style="width:100%;height:300px;display:flex;justify-content:center;align-items:center;">
+	<van-loading color="{{themeColor}}" size="24px" vertical>加载中...</van-loading>
+</view>
+<empty show="{{ !loading && (items == null || items.length == 0) }}" />
+<grid-card items="{{items}}" bindPullDown="{{this.onPullDownRefresh}}" userGps="{{ gps }}"></grid-card>

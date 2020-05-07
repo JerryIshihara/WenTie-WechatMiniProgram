@@ -1,0 +1,35 @@
+/* pages/search_outcome/search_outcome.wxss */
+.outcome-filter-wrp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    width: 100%;
+    height: 25px;
+    padding: 20rpx;
+    padding-top: 0rpx;
+}
+.filter-tag-wrp {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+    border-right: 1px solid #efefef;
+}
+.filter-tag-text {
+    font-size: 25rpx;
+    font-weight: light;
+    color: #777777;
+}
+
+.filter-wrp {
+    position: fixed;
+    z-index: 999;
+    top: 155rpx;
+    width: 100%;
+    height: 100%;
+    background: #00000067;
+}

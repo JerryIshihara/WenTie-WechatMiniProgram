@@ -1,0 +1,37 @@
+<!--Custom-Component/keyboard/index.wxml-->
+
+<view class='page_box'>
+    <view class="price-input-wrp">
+        <view class="complete-and-cancel">
+            <view class="complete-cancel-text" hover-class="grey-hover" bindtap="closePrice">
+                <text style="color:{{themeColor}}">取消</text>
+            </view>
+            <view class="complete-cancel-text" hover-class="grey-hover" bindtap="confirmPrice">
+                <text style="color:{{themeColor}}">完成</text>
+            </view>
+        </view>
+        <!-- 想要卖的价格 -->
+        <view id="id_offering" catchtap='pressed' class="price-input-title">
+            <text class="price-title">开价</text>
+        </view>
+        <view id="id_offering" catchtap='pressed' class="price-input-row" style="padding-top:10px;">
+            <text class="price-offering">$</text>
+            <text class='price-offering' style="color:#8a8a8a;padding-left:10px;">{{offering}}</text>
+            <view wx:if="{{offeringShow}}" class='className' style="background:{{themeColor}};"></view>
+        </view>
+
+        <!-- 原价 -->
+        <view id="id_original" catchtap='pressed' class="price-input-row" style="border-bottom:0px;">
+            <text style="font-size:14px;padding-right:15px;">原价</text>
+            <text class="price-original">$</text>
+            <text class='price-original-value' style="color:#8a8a8a;padding-left:10px;">{{original}}</text>
+            <view wx:if="{{originalShow}}" class='className' style="height:17px;background:{{themeColor}};"></view>
+        </view>
+    </view>
+    <view class='keyboard {{keyShow&&"hind_box"}}'>
+        <!-- <view class='complete'>完成</view> -->
+        <view class='key_box'>
+            <text class='keys {{index%3==0&&"border0"}} {{(index==9||index==11)&&"bg_color"}}' wx:for='{{KeyboardKeys}}' wx:key='this' catchtap='keyTap' data-keys='{{item}}'>{{item}}</text>
+        </view>
+    </view>
+</view>

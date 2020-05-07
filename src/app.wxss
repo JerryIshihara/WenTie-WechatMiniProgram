@@ -1,0 +1,42 @@
+/**app.wxss**/
+page {
+  background: #f8f8f8;
+}
+
+.grey-hover {
+    background: rgba(0, 0, 0, 0.075)
+}
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 200rpx 0;
+    box-sizing: border-box;
+}
+
+
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.userinfo-avatar {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+}
+
+.authorize-image-wrp {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.save-bar-bottom {
+    position: relative;
+    width: 100%;
+    height: 50rpx;
+}

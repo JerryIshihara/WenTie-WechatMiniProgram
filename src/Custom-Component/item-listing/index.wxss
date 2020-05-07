@@ -1,0 +1,15 @@
+/* Custom-Component/item-listing/index.wxss */
+.card-wrp{
+    position: relative;
+    margin: 15rpx;
+}
+.card-custom{
+    background: #FF6D78;
+    border-radius: 10rpx;
+}
+.thumb{
+    margin-right: 150rpx;
+}
+.spliter{
+    margin-right: 10rpx;
+}

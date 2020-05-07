@@ -1,0 +1,166 @@
+/* Custom-Component/keyboard/index.wxss */
+.page_box{
+  width: 100%;
+  height: 100%;
+  background: #f3f7f7;
+  overflow: hidden;
+}
+.input_view{
+  width: 700rpx;
+  height:500rpx;
+  background: #fff;
+   margin: 25rpx auto; 
+  border-radius: 10rpx;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+.title{
+  display: block;
+  line-height: 90rpx;
+  font-size:30rpx;
+  color: #aaa;
+}
+.input_box{
+  /* background: #ffc; */
+  display: flex;
+  padding: 20rpx 0;
+  height: 90rpx;
+  border-bottom: 1px solid #efefef;
+}
+.input_label{
+  font-size: 35rpx;
+  font-weight: bold;
+  margin-right: 5rpx;
+}
+.content{
+  font-size: 80rpx;
+  line-height: 90rpx;
+  font-weight: bold;
+}
+.className{ 
+  width: 2px;
+  height: 30px;
+  border-radius: 6px;
+  animation: twinkling 1s infinite ; 
+} 
+.animated{ 
+  animation-duration: 1s; 
+  animation-fill-mode: both 
+} 
+@-webkit-keyframes twinkling{ 
+  0%{ 
+    opacity: 0; 
+  } 
+  100%{ 
+    opacity: 1; 
+  } 
+} 
+.pay{
+  display: block;
+  width: 300rpx;
+  height: 90rpx;
+  border-radius: 12rpx;
+  background: #62b900;
+  color:#fff;
+  text-align: center;
+  line-height: 90rpx;
+  margin:50rpx auto;
+  font-size: 32rpx;
+}
+.keyboard{
+  height: 0;
+  width: 100%;
+  background: #fff;
+  position: relative;
+  transition:height 0.3s;
+}
+.hind_box{
+  height: 440rpx;
+}
+.complete{
+  background: #efefef;
+  height: 80rpx;
+  font-size: 30rpx;
+  line-height: 80rpx;
+  text-align: right;
+  padding:0 25rpx;
+  color: #ff6d78;
+}
+.key_box{
+  overflow: hidden;
+}
+.keys{
+  float: left;
+  width: 250rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  border-left: 1px solid #eee;
+  box-sizing: border-box;
+  border-top: 1px solid #eee;
+}
+.border0{
+  border-left: 0;
+}
+.bg_color{
+  background: #ccc;
+}
+
+.price-input-wrp {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.price-input-title {
+    position: relative;
+    width: 100%;
+    padding: 0 20px;
+    padding-top: 20px;
+    background: white;
+}
+.price-title {
+    font-size: 14px;
+}
+.price-input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: white;
+    border-bottom: 1px solid #efefef;
+}
+.price-offering {
+    display: flex;
+    position: relative;
+    font-size: 30px;
+    color: #dfdfdf;
+}
+.price-original {
+    display: flex;
+    position: relative;
+    color: #dfdfdf;
+}
+
+.complete-and-cancel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    background: white;
+    width: 100%;
+    border-bottom: 1px solid #efefef;
+}
+.complete-cancel-text {
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+.grey-hover {
+    background: rgba(0, 0, 0, 0.075)
+}

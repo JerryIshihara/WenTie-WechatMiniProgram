@@ -1,0 +1,39 @@
+<!--pages/message/message.wxml-->
+
+<!-- 消息列表 -->
+<van-tabs active="{{ active }}" color="{{ themeColor }}" bind:change="onChangeTab" border="{{ false }}" sticky swipeable>
+    <!-- TAB分类 -->
+    <van-tab wx:for="{{ title }}" wx:key="key" title="{{ item }}">
+        <!-- 啥也没 -->
+        <empty show="{{ !loading && (items == null || items.length == 0) }}" />
+        <!-- 加载中 -->
+        <view wx:if="{{loading}}" style="width:100%;height:400px;display:flex;justify-content:center;align-items:center;">
+            <van-loading color="{{themeColor}}" size="24px" vertical>加载中...</van-loading>
+        </view>
+        <!-- 消息 -->
+        <message messageList="{{ items }}" type="{{ type[index] }}" bind:update="bindUpdate" bind:complete="notifyComplete"/>
+    </van-tab>
+    <!-- <van-tab title="摘帖">
+        <message messageList="{{items}}" type="give" bind:update="bindUpdate"></message>
+    </van-tab> -->
+</van-tabs>
+
+
+
+<!-- 弹出窗口-摘帖 -->
+<van-dialog id="accept-item">
+    <!-- <view style="margin:20rpx; margin-left:30rpx;">
+        <van-checkbox use-icon-slot value="{{ confirmTransaction }}" checked-color="#07c160" bind:change="onChangeConfirmTransaction">
+            <view style="display:flex;align-items:center;margin:30px">
+                <text style="font-size:13px;color:#606060;">我确认已和发帖人达成交易</text>
+            </view>
+        </van-checkbox>
+        <view wx:if="{{warnConfirmTransaction}}" style="display:flex;align-items:center;padding:10px;">
+            <text style="font-size:12px;color:#ff6666;font-weight:light;">* 请先与发帖人交易此帖</text>
+        </view>
+    </view> -->
+</van-dialog>
+
+
+<!-- 消息订阅 -->
+<subscribe-auth show="{{ showAuth }}"/>

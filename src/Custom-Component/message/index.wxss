@@ -1,0 +1,72 @@
+/* Custom-Component/message/index.wxss */
+/* pages/message/message.wxss */
+
+.message-item-wrp {
+    display: flex;
+    flex-direction: column;
+}
+.message-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1px;
+    background: white;
+    align-items: center;
+    padding: 5px 0px;
+}
+
+.message-text {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.message-text-nickName {
+    display: flex;
+    font-weight: light;
+    margin-top: 20px;
+}
+.message-text-message {
+    display: flex;
+    margin-top: 2px;
+    font-size: 13px;
+    color: rgb(194, 194, 194);
+    
+    width: 350rpx;
+
+    display: -webkit-box;     
+    word-break: break-all;
+    text-overflow: ellipsis;  
+    overflow: hidden;
+    -webkit-box-orient: vertical;   
+    -webkit-line-clamp: 2;    
+}
+.message-img {
+    border-radius: 2%; 
+    margin: 5px 20px;
+    width: 100px;
+    height: 100px;
+}
+.message-avatar-text {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100%;
+}
+.userinfo-avatar {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border-radius: 50%;
+}
+.title {
+    font-size:15px;
+    color:#606060;
+    padding:0px 5px;
+    font-weight: 400;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all; /* 追加这一行代码 */
+}

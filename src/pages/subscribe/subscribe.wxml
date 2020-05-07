@@ -1,0 +1,9 @@
+<!--src/pages/subscribe.wxml-->
+<!-- <poster id="poster" hide-loading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+    <button>生成海报</button>
+</poster>
+
+<custom-poster /> -->
+
+<subscribe-auth show="{{ showAuth }}"/>
+<!-- <button bindtap="subscribeMessage"> lala </button> -->

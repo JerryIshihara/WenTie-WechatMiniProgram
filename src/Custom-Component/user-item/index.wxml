@@ -1,0 +1,59 @@
+<!--Custom-Component/user-item/index.wxml-->
+<view class="item-wrp">
+    <!-- 标题 -->
+    <view class="item-title-wrp">
+        <view class="item-title-left">
+            <image class="item-avatar" src="{{item.avatarUrl}}"></image>
+            <text class="">{{item.nickName}}</text>
+        </view>
+        <view class="item-title-right">
+            <text class="item-offering-sign">$</text> <text class="item-offering-price">{{item.price_offer}}</text>
+        </view>
+    </view>
+    <!-- 图片 -->
+    <view class="item-image-wrp">
+        <scroll-view scroll-x style="padding:0rpx 40rpx;white-space:nowrap;">
+            <block wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="*this">
+                <image class="item-image" src="{{img}}" mode="aspectFill" data-idx="{{index}}" bindtap="preview"/>
+            </block>
+            <!-- 修复右侧划不到底的bug -->
+            <view style="display:inline-block;height:100px;width:40rpx;"></view>
+        </scroll-view>
+    </view>
+    <view class="item-name-wrp">
+        <text>{{item.title}}</text>
+    </view>
+    <!-- TODO:改成slot -->
+    <view class="item-bottom-button">
+        <view class="item-social-info">
+            <view class="item-social-info-single" style="margin-left:0px;">
+                <image class="item-social-info-icon" src="../../img/item-like.png" id="赞"/>
+                <text class="item-social-info-text">{{item.num_thumbUp}}</text>
+            </view>
+            <view class="item-social-info-single">
+                <image class="item-social-info-icon" src="../../img/star.png" id="收藏"/>
+                <text class="item-social-info-text">{{item.num_collected}}</text>
+            </view>
+            <view class="item-social-info-single">
+                <image class="item-social-info-icon" src="../../img/Comment.png"/>
+                <text class="item-social-info-text">{{item.msg.length}}</text>
+            </view>
+            <view class="item-social-info-single">
+                <image class="item-social-info-icon" src="../../img/share.png"/>
+                <text class="item-social-info-text">{{item.num_share}}</text>
+            </view>
+        </view>
+        <block wx:if="{{type=='我收藏的'}}">
+            <view class="item-bottom" bindtap="onTapCancel">
+                <image class="item-bottom-icon" src="../../img/star-yellow.png" mode="aspectFill"></image>
+                <text style="font-size:14px;font-weight:light;margin:0px 5px;">取消收藏</text>
+            </view>
+        </block>
+        <block wx:elif="{{type=='我发布的'}}">
+            <view class="item-bottom" bindtap="onTapCancel">
+                <image class="item-bottom-icon" src="../../img/delete-red.png" mode="aspectFill"></image>
+                <text style="font-size:14px;font-weight:light;margin:0px 5px;">删除发布</text>
+            </view>
+        </block>
+    </view>
+</view>
