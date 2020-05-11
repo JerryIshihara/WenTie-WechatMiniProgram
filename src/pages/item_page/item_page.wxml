@@ -77,7 +77,7 @@
 <van-divider contentPosition="center">问贴留名 ({{item_asked_list.length}})</van-divider>
 
 <view style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;width:100%;background-color:white;padding 0rpx 40rpx;">
-	<image wx:for="{{ item_asked_list }}" wx:key="key" style="width:40px;height:40px;background:#00000050;margin:10px 5px;border-radius:50%" src="{{item.userInfo.avatarUrl}}" />
+	<image wx:for="{{ item_asked_list }}" wx:key="key" style="width:40px;height:40px;background:#00000050;margin:10px 5px;border-radius:50%" src="{{item}}" />
 </view>
 
 <!-- 底部功能 -->
@@ -113,7 +113,7 @@
 		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="getItem" style="background-color:#ff6666;">
 			<view style="display:flex;align-items:center;padding:2px 8px;">
 				<image style="width:30px;height:30px;margin:2px 4px;" src="../../img/trust-fill.png" />
-				<text style="font-family:Helvetica;color:white;font-size:17px;">摘帖</text>
+				<text style="font-family:Helvetica;color:white;font-size:17px;">买好了</text>
 			</view>
 		</view>
 	</view>
@@ -163,8 +163,8 @@
 <van-dialog id="ask-item" use-slot>
 	<view style="margin:20rpx 0rpx;">
 		<van-cell-group>
-			<van-field value="{{ WXNumber }}" label="微信号" placeholder="请输入微信号" border="{{ false }}" bind:change="onChangeWXNumberInput">
-			</van-field>
+			<van-field value="{{ WXNumber }}" label="微信号" placeholder="请输入微信号" border="{{ true }}" bind:change="onChangeWXNumberInput" />
+			<van-field value="{{ messageText }}" label="留言" placeholder="请输入留言" border="{{ true }}" bind:change="onChangeMessageInput" />
 		</van-cell-group>
 	</view>
 	<view style="margin:20rpx; margin-left:30rpx;">
@@ -210,7 +210,7 @@
 	<van-steps steps="{{ steps }}" active="{{ step_index }}"/>
 	<view style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
 		<view style="width:250px;height:400px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;background-color:#fff">
-			<image catchtap="onClickHideInstruction" wx:if="{{step_index === 3}}"  style="width:25px;height:25px;margin:15px" src="{{'../../img/close-grey.png'}}" />
+			<image catchtap="onClickHideInstruction" style="width:25px;height:25px;margin:15px" src="{{'../../img/close-grey.png'}}" />
             <view wx:if="{{step_index !== 3}}" style="width:25px;height:25px;margin:15px"></view>
 			<view style="flex-direction:column;width:100%;display:flex;align-items:center;justify-content:center;">
 				<view
@@ -234,7 +234,7 @@
                     style="background-color:#ff6666;">
                     <view style="display:flex;align-items:center;padding:2px 8px;">
                         <image style="width:30px;height:30px;margin:2px 4px;" src="../../img/trust-fill.png" />
-                        <text style="font-family:Helvetica;color:white;font-size:17px;">摘帖</text>
+                        <text style="font-family:Helvetica;color:white;font-size:17px;">买好了</text>
                     </view>
                 </view>
                 <text wx:if="{{step_index === 0}}" style="margin:20px;color:#707070;font-size:13px;">对商品有兴趣？</text>
@@ -242,9 +242,9 @@
                 <image wx:if="{{step_index === 1}}"  style="width:45px;height:45px;margin:15px" src="{{'../../img/weChat-img.png'}}" />
                 <image wx:if="{{step_index === 3}}"  style="width:45px;height:45px;margin:15px" src="{{'../../img/完成.png'}}" />
                 <text wx:if="{{step_index === 1}}" style="color:#707070;font-size:13px;"> 与卖家在微信了解商品详情并完成交易</text>
-                <text wx:if="{{step_index === 2}}" style="margin:20px;color:#707070;font-size:13px;">完成交易？</text>
-                <text wx:if="{{step_index === 2}}" style="margin:20px;color:#707070;font-size:13px;"> 别忘了回来摘下此帖哦</text>
-                <text wx:if="{{step_index === 3}}" style="margin:20px;color:#707070;font-size:13px;"> 卖家确认后成功摘帖！</text>
+                <text wx:if="{{step_index === 2}}" style="margin:10px;color:#707070;font-size:13px;">完成交易?</text>
+                <text wx:if="{{step_index === 2}}" style="margin:2px;color:#707070;font-size:13px;">别忘了回来点击’买好了‘哦</text>
+                <text wx:if="{{step_index === 3}}" style="margin:20px;color:#707070;font-size:13px;"> 卖家确认后成功完成交易！</text>
                 <van-button 
                     round plain size="small" 
                     color="#2ba245" 

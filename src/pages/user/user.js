@@ -14,7 +14,7 @@ Page({
         authorizeShow: false,
         themeColor: app.globalData.themeColour,
         active: 0,
-        category: ['发帖', '卖出', '收藏', '摘到'],
+        category: ['发帖', '卖出', '收藏', '买到'],
         title: '发帖',
         loading: true,
         items: null,
@@ -34,6 +34,7 @@ Page({
         // })
         this.setData({
           userInfo: app.globalData.userInfo,
+          gps: app.globalData.gps
         })
         db.collection('item_transaction').where({
           _openid: app.globalData.openid,
@@ -110,7 +111,7 @@ Page({
     },
 
     updateData: function(title) {
-      this.setData({ loading: true, items: null, title: title, gps: app.globalData.gps,})
+      this.setData({ loading: true, items: null, title: title, gps: app.globalData.gps})
       const _this = this;
       if (title == this.data.category[0]) {
         db.collection('items').where({

@@ -131,6 +131,9 @@ page {
     height: 40px;
     margin: 10px;
 }
+.post-button::after {
+    border: none;
+}
 .post-button-text {
     display: flex;
     color: white;

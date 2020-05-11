@@ -66,12 +66,13 @@ App({
         openid: null,
         dataBase: null,
         gps: null,
-        // themeColour: "#FF6D78",
-        themeColour: '#FFC773',
+        themeColour: "#FF6D78",
+        // themeColour: '#e64937',
         outMargin: "10prx",
         titlePadding: "40rpx",
         inactiveGrey: "#c9c9c9",
-        category: ['推荐', '电器', '数码', '图书课件', '美妆个护', '居家日用', '服装鞋帽', '珠宝配饰', '二手车', '其他'],
+        category: ['推荐', '电器', '数码', '图书课件', '美妆个护', '居家日用', '服装鞋帽', '珠宝配饰', '二手车', '租房', '其他'],
+        maxPriceLength: 7,
         tmplIds: [
             'lCGrw_TKDvUfH7hoTu0kfGUhlcSS7gSKU53JGDAGcjo',
             'sNjrgS4VpnOm28vMIucdym36NK0-xE96ZRlyrNMYg2c'

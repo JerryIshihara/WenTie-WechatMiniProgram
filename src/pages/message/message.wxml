@@ -11,7 +11,7 @@
             <van-loading color="{{themeColor}}" size="24px" vertical>加载中...</van-loading>
         </view>
         <!-- 消息 -->
-        <message messageList="{{ items }}" type="{{ type[index] }}" bind:update="bindUpdate" bind:complete="notifyComplete"/>
+        <message messageList="{{ items }}" type="{{ type[index] }}" bind:update="bindUpdate" bind:complete="notifyComplete" userGps="{{ gps }}" />
     </van-tab>
     <!-- <van-tab title="摘帖">
         <message messageList="{{items}}" type="give" bind:update="bindUpdate"></message>

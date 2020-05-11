@@ -58,6 +58,19 @@
     margin: 5px;
     border-radius: 50%;
 }
+.nickName {
+    font-size:13px;
+    color:#606060;
+    padding:0px 5px;
+    font-weight: 400;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all; /* 追加这一行代码 */
+    width: 100px;
+}
 .title {
     font-size:15px;
     color:#606060;
@@ -67,6 +80,18 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all; /* 追加这一行代码 */
+}
+.message {
+    font-size:13px;
+    color:#60606080;
+    padding:0px 5px;
+    font-weight: 400;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-all; /* 追加这一行代码 */
 }

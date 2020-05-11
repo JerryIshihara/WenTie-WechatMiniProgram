@@ -23,32 +23,32 @@
   },
   "tabBar": {
     "borderStyle": "white",
-    "color": "#8a8a8a",
-    "selectedColor": "#FF6D78",
+    "color": "#707070",
+    "selectedColor": "#2c2c2c",
     "backgroundColor": "#fff",
     "list": [
       {
         "pagePath": "pages/home/home",
-        "iconPath": "img/home.png",
-        "selectedIconPath": "img/home-fill.png",
+        "iconPath": "img/tabBar/store.png",
+        "selectedIconPath": "img/tabBar/store-fill.png",
         "text": "首页"
       },
       {
-        "pagePath": "pages/message/message",
-        "iconPath": "img/remind.png",
-        "selectedIconPath": "img/remind_fill.png",
-        "text": "消息"
-      },
-      {
         "pagePath": "pages/post_blank/post_blank",
-        "iconPath": "img/addition.png",
-        "selectedIconPath": "img/addition_fill.png",
+        "iconPath": "img/tabBar/add.png",
+        "selectedIconPath": "img/tabBar/add-fill.png",
         "text": "发帖"
       },
       {
+        "pagePath": "pages/message/message",
+        "iconPath": "img/tabBar/email.png",
+        "selectedIconPath": "img/tabBar/email-fill.png",
+        "text": "消息"
+      },
+      {
         "pagePath": "pages/user/user",
-        "iconPath": "img/people.png",
-        "selectedIconPath": "img/people_fill.png",
+        "iconPath": "img/tabBar/account.png",
+        "selectedIconPath": "img/tabBar/account-fill.png",
         "text": "我的"
       }
     ]

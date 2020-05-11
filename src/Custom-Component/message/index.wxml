@@ -1,4 +1,6 @@
 <!--Custom-Component/message/index.wxml-->
+<wxs module="util" src="../../utils/util.wxs"></wxs>
+
 <!-- 消息列表 -->
 <view class="message-item-wrp">
     <view class="message-item" wx:for="{{messageList}}" wx:key="key" wx:for-item="item" data-item="{{item}}" bindtap="onTapItem">
@@ -10,11 +12,11 @@
                 <view style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;">
                     <view style="display:flex;flex-direction:row;align-items:center;">
                         <image class="userinfo-avatar" src="{{item.userInfo.avatarUrl}}"/>
-                        <text style="font-size:13px;color:#606060;">{{item.userInfo.nickName}}</text>
+                        <text class="nickName">{{item.userInfo.nickName}}</text>
                     </view>
-                    <view style="display:flex;flex-direction:row;align-items:center;">
-                        <image style="width:12px;height:12px;margin-left:5px;" src="../../img/location.png" />
-                        <text style="font-size:12px;color:#707070;">13km</text>
+                    <view style="display:flex;flex-direction:row;align-items:center;" wx:if="{{type=='ask'}}">
+                        <!-- <image style="width:12px;height:12px;margin-left:5px;" src="../../img/location.png" /> -->
+                        <text style="font-size:12px;color:#707070;">{{util.getDistance(item.gps, userGps)}}</text>
                     </view>
                 </view>
                 <!-- 商品信息 -->
@@ -24,6 +26,10 @@
                         <text style="font-size:12px;color:#D84E43;">$</text>
                         <text style="font-size:15px;color:#D84E43;">{{item.item.price_offer}}</text>
                     </view>
+                </view>
+                <!-- 留言 -->
+                <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:3px 0px;">
+                    <text class="message">{{item.message}}</text>
                 </view>
                 <!-- 按钮 -->
                 <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:3px 0px;">

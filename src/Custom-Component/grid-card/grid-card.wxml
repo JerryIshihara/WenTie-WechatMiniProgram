@@ -9,7 +9,7 @@
 		<!-- 分类下的物品 -->
 		<view style="display:flex;flex-direction:column;width:100%;background-color:white;margin:3px 0px;" wx:for="{{ items }}" wx:for-item="item" wx:key="key" wx:for-index="index" bindtap="onTap" data-item="{{ type == '卖出' ? item.item :item }}" wx:if="{{index%2==mod}}">
 			<!-- 图片 -->
-			<image class="thumb" src="{{type == '卖出' ? item.item.images[0] : item.images[0]}}" mode="widthFix" lazy-load="true" />
+			<image class="thumb" src="{{type == '卖出' ? item.item.images[0] : item.images[0]}}" mode="widthFix" />
 			<!-- 标题 -->
 			<view class="title-wrp">
 					<text class="title" style="font-size:15px;">{{type == '卖出' ? item.item.title : item.title}}</text>
@@ -21,7 +21,7 @@
 					<text class="price" style="color:#D84E43;">{{type == '卖出' ? item.item.price_offer : item.price_offer}}</text>
 				</view>
 				<view style="display:flex;align-items:center;padding:3px 10px;">
-					<text style="font-size:12px;color:#707070;">{{type == '卖出' ? '' : util.getDistance(item.gps, userGps)}}</text>
+					<text style="font-size:12px;color:#707070;">{{type === '卖出' ? '' : util.getDistance(item.gps, userGps)}}</text>
 				</view>
 			</view>
 			<!-- 头像 -->

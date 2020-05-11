@@ -40,10 +40,29 @@ Page({
 
     onReady: function() {
       this.setData({ userInfo: app.globalData.userInfo, gps: app.globalData.gps })
-      
-      wx.showTabBarRedDot({
-        index: 3,
+      db.collection('item_asked').where({
+        'item._openid': app.globalData.openid,
+      }).get({
+        success: function (res) {
+          console.log(res)
+          if (res.data.length > 0) {
+            wx.showTabBarRedDot({ index: 2 })
+          } else {
+            db.collection('item_asked').where({
+              'item._openid': app.globalData.openid,
+            }).get({
+              success: function (res) {
+                console.log(res)
+                if (res.data.length > 0) {
+                  wx.showTabBarRedDot({ index: 2 })
+                } 
+              }
+            })
+          }
+        }
       })
+      
+
     },
 
     onPullDownRefresh: function () {

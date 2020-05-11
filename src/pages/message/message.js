@@ -14,9 +14,10 @@ Page({
         active: 0,
         items: null,
         loading: true,
-        title: ['问帖', '摘帖'],
+        title: ['问帖', '交易确认'],
         type: ['ask', 'give'],
         themeColor: app.globalData.themeColour,
+        gps: null,
     },
 
     /**
@@ -41,7 +42,7 @@ Page({
      * Lifecycle function--Called when page is initially rendered
      */
     onReady: function () {
-
+      this.setData({ gps: app.globalData.gps })
     },
 
     /**
@@ -51,7 +52,7 @@ Page({
         wx.setNavigationBarTitle({ title: '消息' })
         // 未读消息提示
         wx.hideTabBarRedDot({
-            index: 3,
+            index: 2,
         })
     },
 

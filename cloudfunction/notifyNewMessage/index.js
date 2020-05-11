@@ -12,6 +12,7 @@ const _ = db.command
 exports.main = async (event, context) => {
   try {
     console.log(event)
+    const thing7 = event.type == '问帖' ? event.type : '确认交易';
     return await cloud.openapi.subscribeMessage.send({
       touser: event.openid,
       page: 'pages/message/message',
@@ -28,7 +29,7 @@ exports.main = async (event, context) => {
           value: event.title
         },
         thing7: {
-          value: event.type
+          value: thing7
         }
       },
     })

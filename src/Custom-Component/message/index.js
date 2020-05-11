@@ -18,6 +18,10 @@ Component({
       type: String,
       value: null
     },
+    userGps: {
+      type: Object,
+      value: null,
+    }
   },
 
   /**
@@ -142,6 +146,8 @@ Component({
         }
       })
       app.subscribe()
+      console.log(this.properties.userGps)
+      console.log(e.currentTarget.dataset.item.gps)
     },
 
     deleteMessage: function (e) {

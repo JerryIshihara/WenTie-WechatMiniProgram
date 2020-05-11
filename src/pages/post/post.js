@@ -27,6 +27,7 @@ Page({
         confirmButton: '发布',
         id: null,
         deleteCandidateImage: [],
+        maxPriceLength: app.globalData.maxPriceLength,
     },
 
     /**

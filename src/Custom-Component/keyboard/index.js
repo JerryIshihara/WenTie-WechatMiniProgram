@@ -8,6 +8,10 @@ Component({
         themeColor: {
             type: String,
             value: '#fff'
+        },
+        maxPriceLength: {
+          type: Number,
+          value: null
         }
     },
 
@@ -40,7 +44,7 @@ Component({
             let len = content.length
             let dot = content.indexOf('.')
             console.log(dot)
-            if (((dot == -1 && len >= 5) || dot >= 5) && keys != '<') {
+            if (((dot == -1 && len >= this.properties.maxPriceLength) || dot >= this.properties.maxPriceLength) && keys != '<') {
                 null
             }
             else {

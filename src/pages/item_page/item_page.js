@@ -19,6 +19,7 @@ Page({
     userInfo: null,
     collected: false,
     WXNumber: null,
+    messageText: null,
     rememberWXNumber: false,
     confirmTransaction: false,
     showConfirmTransaction: false,
@@ -42,6 +43,28 @@ Page({
         text: '卖家确认',
       }
     ]
+  },
+
+  getAskRecord: function () {
+    // 查询问贴记录
+    const that = this
+    db.collection('item_asked_record').where({
+      item_id: this.data.item._id,
+    }).get({
+      success: function (res) {
+        console.log(res)
+        if (res.data.length == 0) {
+          console.log('未问贴')
+        } else {
+          const userList = res.data.map(u => u.avatarUrl);
+          console.log('已问贴');
+          console.log(Array.from(new Set(userList)));
+          that.setData({
+            item_asked_list: Array.from(new Set(userList))
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -79,22 +102,7 @@ Page({
         }
       }
     })
-    // 查询问贴记录
-    db.collection('item_asked').where({
-      'item._id': this.data.item._id,
-    }).get({
-      success: function (res) {
-        console.log(res)
-        if (res.data.length == 0) {
-          console.log('未问贴')
-        } else {
-          console.log('已问贴')
-          _this.setData({
-            item_asked_list: res.data
-          })
-        }
-      }
-    })
+    this.getAskRecord();
     this.setData({
       isBuyer: this.data.item._openid !== app.globalData.openid,
       status: this.data.item.status
@@ -144,6 +152,7 @@ Page({
         })
       }
     })
+    this.getAskRecord();
     wx.stopPullDownRefresh();
   },
 
@@ -311,6 +320,9 @@ Page({
         closeOnClickOverlay: true
       })
       .then(() => {
+        wx.showLoading({
+          title: '发送问帖',
+        })
         if (that.data.rememberWXNumber) {
           console.log('记住微信号 : ' + that.data.WXNumber)
           if (record_id != null) {
@@ -344,11 +356,21 @@ Page({
             item: this.data.item,
             userInfo: app.globalData.userInfo,
             WXNumber: this.data.WXNumber,
+            message: this.data.messageText,
+            gps: app.globalData.gps,
           },
           success: function (res) {
             console.log(res)
             console.log('发送消息')
             that.notifyMessage('问帖')
+            wx.hideLoading({
+              complete: (res) => {
+                wx.showToast({
+                  title: '问帖成功',
+                })
+                that.onPullDownRefresh();
+              },
+            })
           },
           fail: function (res) {
             console.log(res)
@@ -358,6 +380,19 @@ Page({
         that.setData({
           WXNumber: null,
           rememberWXNumber: false
+        })
+        // 用于显示留言记录
+        db.collection('item_asked_record').add({
+          data: {
+            item_id: this.data.item._id,
+            avatarUrl: app.globalData.userInfo.avatarUrl,
+          },
+          success: function (res) {
+            console.log(res)
+          },
+          fail: function (res) {
+            console.log(res)
+          }
         })
       })
       .catch(() => {
@@ -384,7 +419,7 @@ Page({
     // 打开窗口
     Dialog.confirm({
         selector: '#get-item',
-        title: "摘帖",
+        title: "交易确认",
         asyncClose: true,
         closeOnClickOverlay: true,
         showConfirmButton: false
@@ -459,28 +494,51 @@ Page({
       console.log("确认交易")
       Dialog.confirm({
           selector: '#get-item',
-          title: "摘帖",
+          title: "交易确认",
           asyncClose: true,
           closeOnClickOverlay: true,
           showConfirmButton: true
         })
         .then(() => {
+          wx.showLoading({
+            title: '正在发送',
+          })
           if (this.data.confirmTransaction) {
-            // 记录摘贴
-            db.collection('item_request').add({
+            wx.cloud.callFunction({
+              // 云函数名称
+              name: 'deleteDuplicateRequest',
+              // 传给云函数的参数
               data: {
-                userInfo: app.globalData.userInfo,
-                item: this.data.item,
+                openid: app.globalData.openid,
+                item: that.data.item,
               },
               success: function (res) {
                 console.log(res)
-                that.notifyMessage('摘帖')
+                // 记录摘贴
+                db.collection('item_request').add({
+                  data: {
+                    userInfo: app.globalData.userInfo,
+                    item: that.data.item,
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    that.notifyMessage('摘帖')
+                    wx.hideLoading({
+                      complete: (res) => {
+                        wx.showToast({
+                          title: '发送成功',
+                        })
+                      },
+                    })
+                  },
+                  fail: function (res) {
+                    console.log(res)
+                  }
+                })
+                Dialog.close();
               },
-              fail: function (res) {
-                console.log(res)
-              }
+              fail: console.error
             })
-            Dialog.close();
           } else {
             that.setData({
               warnConfirmTransaction: true
@@ -503,7 +561,7 @@ Page({
     } else {
       Dialog.confirm({
           selector: '#get-item',
-          title: "摘帖",
+          title: "交易确认",
           asyncClose: true,
           closeOnClickOverlay: true,
           showConfirmButton: false
@@ -553,7 +611,9 @@ Page({
   },
 
   onClickNoInstruction: function () {
-    this.setData({ noInstruction: !this.data.noInstruction });
+    this.setData({
+      noInstruction: !this.data.noInstruction
+    });
     wx.setStorageSync('showInstruction', !this.data.noInstruction);
   },
 
@@ -565,6 +625,11 @@ Page({
         step_index: this.data.step_index + 1
       })
     }
+  },
 
+  onChangeMessageInput: function (e) {
+    this.setData({
+      messageText: e.detail
+    })
   }
 })

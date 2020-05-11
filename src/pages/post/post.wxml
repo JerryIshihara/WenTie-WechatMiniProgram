@@ -77,7 +77,7 @@
         <van-cell title="价格" bind:click="showPrice" value="{{priceValue}}" is-link/>
         <!-- 键盘 -->
         <van-popup position="bottom" show="{{pricePopupShow}}" bind:close="closePrice" style="width:100%;" style="position:relative;">
-            <keyboard themeColor="{{themeColor}}" bind:confirm="confirmPrice" bind:cancel="closePrice"></keyboard>
+            <keyboard themeColor="{{themeColor}}" bind:confirm="confirmPrice" bind:cancel="closePrice" maxPriceLength="{{ maxPriceLength }}"></keyboard>
         </van-popup>
     </van-cell-group>
 </view>
