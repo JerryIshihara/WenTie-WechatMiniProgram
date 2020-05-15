@@ -1,8 +1,13 @@
 //app.js
+// const ENV = 'dev-mv1xd';
+const ENV = 'release-x8nh1';
+// const ENV_TYPE = 'dev'
+const ENV_TYPE = 'release'
+
 App({
     onLaunch: function () {
-        wx.cloud.init({ env: 'dev-mv1xd' })
-        const DB = wx.cloud.database({ env: 'dev-mv1xd' })
+        wx.cloud.init({ env: ENV })
+        const DB = wx.cloud.database({ env: ENV })
         this.globalData.dataBase = DB
         var that = this
         // 登录
@@ -23,30 +28,14 @@ App({
                     name: 'getOpenId',
                     data: { url: url },
                     success: function (res) {
-                        const result = JSON.parse(res.result)
+                        console.log(res)
+                        // const result = ENV_TYPE === 'dev' ? JSON.parse(res.result) : res.result;
+                        const result = JSON.parse(res.result);
                         console.log(result.openid)
                         that.globalData.openid = result.openid;
                     },
                     fail: console.error
                 })
-                // wx.request({
-                //     url: url,
-                //     // url: "https://6465-dev-mv1xd-1300090476.tcb.qcloud.la",
-                //     header: {
-                //         'content-type': 'application/json;'
-                //     },
-                //     method:'POST',
-                //     data: {
-                //       code: code,
-                //     },
-                //     success: function (res) {
-                //         console.log(res) //获取openid
-                //         that.globalData.openid = res.data.openid
-                //     },
-                //     fail: function (res) {
-                //         console.log(res)
-                //     }
-                // })
             }
           })
         // 用户引导设置
@@ -67,11 +56,10 @@ App({
         dataBase: null,
         gps: null,
         themeColour: "#FF6D78",
-        // themeColour: '#e64937',
         outMargin: "10prx",
         titlePadding: "40rpx",
         inactiveGrey: "#c9c9c9",
-        category: ['推荐', '电器', '数码', '图书课件', '美妆个护', '居家日用', '服装鞋帽', '珠宝配饰', '二手车', '租房', '其他'],
+        category: ['推荐', '家用电器', '电子数码', '图书课件', '美妆个护', '居家日用', '服饰珠宝', '母婴用品', '宠物用品', '二手车', '租房', '其他'],
         maxPriceLength: 7,
         tmplIds: [
             'lCGrw_TKDvUfH7hoTu0kfGUhlcSS7gSKU53JGDAGcjo',

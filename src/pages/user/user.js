@@ -5,7 +5,6 @@ const db = app.globalData.dataBase;
 const _ = db.command
 
 Page({
-
     /**
      * Page initial data
      */
@@ -14,7 +13,8 @@ Page({
         authorizeShow: false,
         themeColor: app.globalData.themeColour,
         active: 0,
-        category: ['发帖', '卖出', '收藏', '买到'],
+        // category: ['发帖', '卖出', '收藏', '买到'],
+        category: ['发帖', '收藏', '卖出'],
         title: '发帖',
         loading: true,
         items: null,
@@ -123,16 +123,24 @@ Page({
           }
         })
       }
-      if (title == this.data.category[1]) {
-        db.collection('item_transaction').where({
-          'item._openid': app.globalData.openid,
+      if (title == this.data.category[2]) {
+        // db.collection('item_transaction').where({
+        //   'item._openid': app.globalData.openid,
+        // }).get({
+        //   success: function (res) {
+        //     _this.setData({ loading: false, items: res.data.reverse() })
+        //   }
+        // })
+        db.collection('items').where({
+          status: 'sold',
+          _openid: app.globalData.openid,
         }).get({
           success: function (res) {
             _this.setData({ loading: false, items: res.data.reverse() })
           }
         })
       }
-      if (title == this.data.category[2]) {
+      if (title == this.data.category[1]) {
         console.log('收藏');
         db.collection('collections').where({
           _openid: app.globalData.openid,
@@ -160,26 +168,26 @@ Page({
           }
         })
       }
-      if ( title == this.data.category[3]) {
-        console.log('摘到');
-        db.collection('item_transaction').where({
-          buyer_id: app.globalData.openid,
-        }).get({
-          success: function (res) {
-            console.log(res);
-            var item_list = []
-            for (var i = 0; i < res.data.length; i++) {
-              item_list.push(res.data[i].item)
-            }
-            console.log(item_list);
-            if (res.data.length > 0) {
-              _this.setData({ loading: false, items: item_list.reverse() })
-            } else {
-              _this.setData({ loading: false, items: null })
-            }
-          }
-        })
-      }
+      // if ( title == this.data.category[3]) {
+      //   console.log('摘到');
+      //   db.collection('item_transaction').where({
+      //     buyer_id: app.globalData.openid,
+      //   }).get({
+      //     success: function (res) {
+      //       console.log(res);
+      //       var item_list = []
+      //       for (var i = 0; i < res.data.length; i++) {
+      //         item_list.push(res.data[i].item)
+      //       }
+      //       console.log(item_list);
+      //       if (res.data.length > 0) {
+      //         _this.setData({ loading: false, items: item_list.reverse() })
+      //       } else {
+      //         _this.setData({ loading: false, items: null })
+      //       }
+      //     }
+      //   })
+      // }
     },
 
     navToItems: function(e) {

@@ -26,7 +26,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.8.0",
 	"appid": "wx94fcd5d0f94febc6",
-	"projectname": "duoyu",
+	"projectname": "问帖",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

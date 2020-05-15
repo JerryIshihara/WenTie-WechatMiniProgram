@@ -7,22 +7,22 @@
     <view class="user-photo-info">
         <!-- 头像 & 昵称-->
         <view class="user-avatar-nickname-wrp">
-            <view class="user-photo">
+            <view class="user-photo" wx:if="{{ userInfo }}">
                 <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"/>
             </view>
-            <text wx:if="{{ !userInfo }}" class="userinfo-nickname" bindtap="authorizeAgain">请登录</text>
+            <text wx:if="{{ !userInfo }}" class="userinfo-nickname-login" bindtap="authorizeAgain">请登录</text>
             <!-- 基本信息栏 -->
             <view wx:if="{{ userInfo }}" class="user-basic-info-wrp">
-              <view class=".user-buy-sell">
+              <!-- <view class=".user-buy-sell">
                 <view style="margin-right:20px">
                   <text style="font-size:13px;font-weight:400;margin-right:2px;color:#5bbd5e">赚:</text>
                   <text style="font-size:20px;font-weight:700;color:#5bbd5e">${{ sumSold }}</text>
                 </view>
-                <!-- <view>
+                <view>
                   <text style="font-size:13px;font-weight:400;margin-right:2px;;color:#ff737b">买:</text>
                   <text style="font-size:20px;font-weight:700;color:#ff737b">$100.00</text>
-                </view> -->
-              </view>
+                </view>
+              </view> -->
               <view class="userinfo-nickname-wrp">
                   <text class="userinfo-nickname">{{userInfo.nickName}}</text>
                   <text style="font-size:12px;font-weight:light;margin:5px;color:#7a7a7a30;">|</text>
@@ -54,6 +54,16 @@
         </van-tab>
     </block>
 </van-tabs>
+
+<!-- 客服按钮 -->
+<button class="contact-button" open-type="contact">
+    <view style="display:flex;justify-content:center;align-items:center;border-radius:50%;padding:5px;background:#000;opacity:0.7">
+        <image style="height:30px;width:30px;" src="../../img/客服.png" />
+    </view>
+</button>
+
+
+
 
 
 

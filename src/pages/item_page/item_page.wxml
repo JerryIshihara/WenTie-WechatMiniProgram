@@ -109,13 +109,13 @@
 				<text style="font-family:Helvetica;color:white;font-size:17px;">问帖</text>
 			</view>
 		</view>
-		<!-- 摘贴 -->
+		<!-- 摘贴
 		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="getItem" style="background-color:#ff6666;">
 			<view style="display:flex;align-items:center;padding:2px 8px;">
 				<image style="width:30px;height:30px;margin:2px 4px;" src="../../img/trust-fill.png" />
 				<text style="font-family:Helvetica;color:white;font-size:17px;">买好了</text>
 			</view>
-		</view>
+		</view> -->
 	</view>
 
 	<!-- 买家界面 -->
@@ -123,15 +123,22 @@
 		<!-- 编辑 -->
 		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="editItem" style="background-color:#707070;margin-right:8px;" wx:if="{{ status === 'post' }}">
 			<view style="display:flex;align-items:center;padding:2px 8px;">
-				<image style="width:30px;height:30px;margin:2px 4px;" src="../../img/edit_white.png" />
-				<text style="font-family:Helvetica;color:white;font-size:17px;font-weight:light">编辑</text>
+				<image style="width:25px;height:25px;margin:2px 0px;" src="../../img/edit_white.png" />
+				<text style="font-family:Helvetica;color:white;font-size:13px;font-weight:light">编辑</text>
 			</view>
 		</view>
 		<!-- 删除 -->
-		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="deleteItem" style="background-color:#ff6666;" wx:if="{{ status === 'post' }}">
+		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="deleteItem" style="background-color:#ff6666;margin-right:8px;" wx:if="{{ status === 'post' }}">
 			<view style="display:flex;align-items:center;padding:2px 8px;">
-				<image style="width:30px;height:30px;margin:2px 4px;" src="../../img/delete_white.png" />
-				<text style="font-family:Helvetica;color:white;font-size:17px;font-weight:light">删除</text>
+				<image style="width:25px;height:25px;margin:2px 0px;" src="../../img/delete_white.png" />
+				<text style="font-family:Helvetica;color:white;font-size:13px;font-weight:light">删除</text>
+			</view>
+		</view>
+		<!-- 删除 -->
+		<view class="button" hover-class="button-pressed" hover-start-time='0' hover-stay-time='100' bindtouchend="onTapComplete" style="background-color:#1AAD19;" wx:if="{{ status === 'post' }}">
+			<view style="display:flex;align-items:center;padding:2px 8px;">
+				<image style="width:25px;height:25px;margin:2px 0px;" src="../../img/success.png" />
+				<text style="font-family:Helvetica;color:white;font-size:13px;font-weight:light">已卖出</text>
 			</view>
 		</view>
 	</view>
@@ -156,8 +163,6 @@
         </view>
     </view>
 </block> -->
-
-
 
 <!-- 弹出窗口-微信号 -->
 <van-dialog id="ask-item" use-slot>
@@ -196,11 +201,7 @@
 </van-dialog>
 
 <!-- 弹出窗口-删除 -->
-<van-dialog id="delete-item" confirm-button-color="#ff6666" use-slot>
-	<view style="width:100%;display:flex;justify-content:center;align-items;center;margin:30px 0px;">
-		<text style="font-size:13px;color:#606060;">确定要删除此帖吗？</text>
-	</view>
-</van-dialog>
+<van-dialog id="delete-item" confirm-button-color="#ff6666" />
 
 <!-- 提示删除完成 -->
 <van-toast id="delete-item-toast" />
@@ -225,7 +226,7 @@
 						<text style="font-family:Helvetica;color:white;font-size:17px;">问帖</text>
 					</view>
 				</view>
-                <view 
+                <!-- <view 
                     wx:if="{{step_index === 2}}"
                     class="button" 
                     hover-class="button-pressed" 
@@ -236,22 +237,22 @@
                         <image style="width:30px;height:30px;margin:2px 4px;" src="../../img/trust-fill.png" />
                         <text style="font-family:Helvetica;color:white;font-size:17px;">买好了</text>
                     </view>
-                </view>
+                </view> -->
                 <text wx:if="{{step_index === 0}}" style="margin:20px;color:#707070;font-size:13px;">对商品有兴趣？</text>
                 <text wx:if="{{step_index === 0}}" style="color:#707070;font-size:13px;width:70%;"> 点击‘问帖’自动发送微信号,等待卖家回复</text>
                 <image wx:if="{{step_index === 1}}"  style="width:45px;height:45px;margin:15px" src="{{'../../img/weChat-img.png'}}" />
-                <image wx:if="{{step_index === 3}}"  style="width:45px;height:45px;margin:15px" src="{{'../../img/完成.png'}}" />
+                <!-- <image wx:if="{{step_index === 3}}"  style="width:45px;height:45px;margin:15px" src="{{'../../img/完成.png'}}" /> -->
                 <text wx:if="{{step_index === 1}}" style="color:#707070;font-size:13px;"> 与卖家在微信了解商品详情并完成交易</text>
-                <text wx:if="{{step_index === 2}}" style="margin:10px;color:#707070;font-size:13px;">完成交易?</text>
-                <text wx:if="{{step_index === 2}}" style="margin:2px;color:#707070;font-size:13px;">别忘了回来点击’买好了‘哦</text>
-                <text wx:if="{{step_index === 3}}" style="margin:20px;color:#707070;font-size:13px;"> 卖家确认后成功完成交易！</text>
+                <!-- <text wx:if="{{step_index === 2}}" style="margin:10px;color:#707070;font-size:13px;">完成交易?</text>
+                <text wx:if="{{step_index === 2}}" style="margin:2px;color:#707070;font-size:13px;">别忘了回来点击’买好了‘哦</text> -->
+                <!-- <text wx:if="{{step_index === 3}}" style="margin:20px;color:#707070;font-size:13px;"> 卖家确认后成功完成交易！</text> -->
                 <van-button 
                     round plain size="small" 
                     color="#2ba245" 
                     custom-style="padding:0px 5px;margin-top:30px"
                     catchtap="nextStep"
                 >
-                    <text style="font-family:helvetica">{{ step_index !==  3 ? '下一步' : '完成' }}</text>
+                    <text style="font-family:helvetica">{{ step_index !==  1 ? '下一步' : '完成' }}</text>
                 </van-button>
 			</view>
             <view style="flex-direction:column;width:100%;display:flex;align-items:center;justify-content:center;">
@@ -265,6 +266,8 @@
 		</view>
 	</view>
 </van-overlay>
+
+<van-dialog id="complete-transaction" />
 
 <!-- 有点hack，解决tabbar遮挡底部内容问题，好用 -->
 <view class="bottom-tabbar-space"></view>

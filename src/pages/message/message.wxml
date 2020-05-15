@@ -1,7 +1,7 @@
 <!--pages/message/message.wxml-->
 
 <!-- 消息列表 -->
-<van-tabs active="{{ active }}" color="{{ themeColor }}" bind:change="onChangeTab" border="{{ false }}" sticky swipeable>
+<van-tabs active="{{ 0 }}" color="{{ themeColor }}" bind:change="onChangeTab" border="{{ false }}" sticky swipeable>
     <!-- TAB分类 -->
     <van-tab wx:for="{{ title }}" wx:key="key" title="{{ item }}">
         <!-- 啥也没 -->

@@ -153,6 +153,7 @@ Page({
                     message: "正在上传",
                     selector: '#loading'
                 })
+                // 压缩图片
                 // 云端上传
                 let lastIndex = res.tempFilePaths.length - 1
                 console.log(lastIndex)

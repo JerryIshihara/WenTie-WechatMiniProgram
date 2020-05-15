@@ -36,12 +36,12 @@ Page({
       {
         text: '线下交易',
       },
-      {
-        text: '摘帖',
-      },
-      {
-        text: '卖家确认',
-      }
+      // {
+      //   text: '摘帖',
+      // },
+      // {
+      //   text: '卖家确认',
+      // }
     ]
   },
 
@@ -134,7 +134,16 @@ Page({
    * Lifecycle function--Called when page unload
    */
   onUnload: function () {
-
+    let pages = getCurrentPages(); //页面栈
+    let beforePage = pages[pages.length - 2];
+    wx.switchTab({
+        url:'/'+ beforePage.route,
+        success:function(){
+            if(beforePage.route == 'pages/home/home'){
+                beforePage.onPullDownRefresh()
+            }
+        }
+    })
   },
 
   /**
@@ -149,6 +158,7 @@ Page({
           loading: false,
           item: res.data,
           userGps: app.globalData.gps,
+          status: _this.item.status
         })
       }
     })
@@ -438,10 +448,11 @@ Page({
     Dialog.confirm({
         selector: '#delete-item',
         title: "删帖",
+        message: '确认删除后将无法撤销',
         asyncClose: true,
         closeOnClickOverlay: true,
         showConfirmButton: true,
-        confirmButtonText: '删除',
+        confirmButtonText: '确认删除',
       })
       .then(() => {
         wx.cloud.callFunction({
@@ -618,7 +629,7 @@ Page({
   },
 
   nextStep: function () {
-    if (this.data.step_index == 3) {
+    if (this.data.step_index == 1) {
       this.onClickHideInstruction();
     } else {
       this.setData({
@@ -631,5 +642,68 @@ Page({
     this.setData({
       messageText: e.detail
     })
+  },
+
+  completeTransaction: function (e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    const that = this
+    // 将状态改为 售出
+    db.collection('items').doc(this.data.item._id).update({
+      data: {
+        status: 'sold'
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    })
+    // 增加交易记录
+    var sold_item = this.data.item
+    sold_item.status = 'sold'
+    this.setData({ item: sold_item, status: 'sold' })
+    // db.collection('item_transaction').add({
+    //   data: {
+    //     userInfo: e.currentTarget.dataset.item.userInfo,
+    //     buyer_id: e.currentTarget.dataset.item._openid,
+    //     item: sold_item,
+    //   },
+    //   success: function (res) {
+        
+    //     console.log(res)
+    //   }
+    // })
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'deleteReqAndAsk',
+      // 传给云函数的参数
+      data: {
+        item: that.data.item,
+      },
+      success: function (res) {
+        console.log(res)
+        wx.showToast({
+          image: '../../img/trust-fill.png',
+          title: '已卖出',
+        })
+        that.onPullDownRefresh;
+      },
+      fail: console.error
+    })
+  },
+
+  onTapComplete: function() {
+    const that = this
+    Dialog.confirm({
+      title: '已卖出',
+      message: '确认卖出后将无法撤销',
+      selector: '#complete-transaction'
+    })
+      .then(() => {
+        that.completeTransaction()
+      })
+      .catch(() => {
+        // on cancel
+      });
   }
 })

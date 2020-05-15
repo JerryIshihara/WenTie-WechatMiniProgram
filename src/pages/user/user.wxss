@@ -33,7 +33,7 @@ page {
 .user-avatar-nickname-wrp{
     display: flex;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
 }
 
@@ -59,12 +59,22 @@ page {
 
 .userinfo-nickname-wrp {
     width: 100%;
-    flex: display;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
 }
 .userinfo-nickname {
     color: #7a7a7a;
     font-size: 13px;
+}
+.userinfo-nickname-login{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #7a7a7a;
+    font-size: 13px;
+    margin: 30px 0px;
 }
 .user-gender {
     width: 12px;
@@ -160,4 +170,28 @@ page {
 .title {
     font-size: 17px;
     padding: 2px;
+}
+.contact-button {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: transparent;
+    position:fixed;
+    bottom:100rpx;
+    right:20rpx;
+}
+.contact-button::after {
+    border: none;
+}
+.contact-button-background {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:fixed;
+    bottom:100rpx;
+    right:20rpx;
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+    background:black
 }

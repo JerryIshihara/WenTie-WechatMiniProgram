@@ -29,7 +29,7 @@
                 </view>
                 <!-- 留言 -->
                 <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:3px 0px;">
-                    <text class="message">{{item.message}}</text>
+                    <text class="message">{{item.message ? item.message : ''}}</text>
                 </view>
                 <!-- 按钮 -->
                 <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:3px 0px;">
@@ -53,7 +53,7 @@
                             data-item="{{item}}"
                             catchtap="onAcceptTransaction"
                         >
-                            <text style="font-family:helvetica">交帖</text>
+                            <text style="font-family:helvetica">确认</text>
                         </van-button>
                         <van-button 
                             round 

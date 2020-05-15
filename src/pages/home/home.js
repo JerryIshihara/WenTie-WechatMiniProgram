@@ -22,7 +22,7 @@ Page({
         // })
     },
     onShow: function() {
-
+      this.onPullDownRefresh;
     },
     
     // 页面加载时触发
