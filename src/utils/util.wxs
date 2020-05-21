@@ -1,9 +1,9 @@
 
 var util = {
   getDistance: function (gps1, gps2) {
-    if (! (gps1 && gps2)) {
-      return ''
-    }
+    if (! (gps1 && gps2)) return '';
+    if (typeof gps1 === 'string') gps1 = JSON.parse(gps1);
+    if (typeof gps2 === 'string') gps2 = JSON.parse(gps2);
     
     var lat1 = gps1.latitude
     var lng1 = gps1.longitude

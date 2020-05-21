@@ -8,10 +8,12 @@ Page({
         themeColour: app.globalData.themeColour,
         category: app.globalData.category,
         userInfo: null,
+        gps: null,
         searchShow: false,
         searchValue: null,
         loading: true,
         active: 0,
+        showAuth: false,
         tag: '问帖',
         
     },
@@ -39,7 +41,27 @@ Page({
     },
 
     onReady: function() {
-      this.setData({ userInfo: app.globalData.userInfo, gps: app.globalData.gps })
+      const that = this
+      wx.getStorage({
+        key: 'userInfo',
+        success(res) {
+            console.log(res)
+            that.setData({ userInfo: res.data})
+        },
+        fail(res) {
+            that.setData({ showAuth: true})
+        }
+      })
+      wx.getStorage({
+        key: 'gps',
+        success(res) {
+            console.log(res)
+            that.setData({ gps: res.data})
+        },
+        fail(res) {
+            that.setData({ showAuth: true})
+        }
+      })
       db.collection('item_asked').where({
         'item._openid': app.globalData.openid,
       }).get({
@@ -66,7 +88,7 @@ Page({
     },
 
     onPullDownRefresh: function () {
-        this.setData({ loading: true, items: null, gps: app.globalData.gps })
+        this.setData({ loading: true, items: null })
         const _this = this
         if (this.data.tag == '问帖') {
             this.onLoad();

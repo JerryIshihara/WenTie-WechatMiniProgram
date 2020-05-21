@@ -5,7 +5,8 @@
 <image width="400px;" src="./问帖.jpg"/>
 
 # MetaData
-##### App Id: wx94fcd5d0f94febc6
+##### App Id: wx907da2553d0d10af 
+##### App Id: wx94fcd5d0f94febc6 (previous)
 
 # Collaboration Rules
 - 可以fork到自己的repo然后提交Pull Request, 注明是哪个issue

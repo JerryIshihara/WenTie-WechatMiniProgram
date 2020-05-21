@@ -28,6 +28,7 @@ Page({
         id: null,
         deleteCandidateImage: [],
         maxPriceLength: app.globalData.maxPriceLength,
+        gps: null,
     },
 
     /**
@@ -67,22 +68,40 @@ Page({
      * Lifecycle function--Called when page is initially rendered
      */
     onReady: function () {
-
+        const that = this;
+        wx.getStorage({
+            key: 'gps',
+            success(res) {
+                console.log(res)
+                that.setData({ gps: res.data})
+            },
+            fail(res) {
+                console.log(res)
+            }
+        })
     },
 
     /**
      * Lifecycle function--Called when page show
      */
     onShow: function () {
-        if (app.globalData.userInfo === null) {
-            Dialog.alert({
-                title: '授权',
-                selector: '#authorize',
-                message: '请先在用户中心授权登录后发帖'
-            }).then(() => {
-                wx.navigateBack()
-            });
-        }
+        const that = this;
+        wx.getStorage({
+            key: 'userInfo',
+            success(res) {
+                console.log(res)
+                that.setData({ userInfo: res.data})
+            },
+            fail(res) {
+                Dialog.alert({
+                    title: '授权',
+                    selector: '#authorize',
+                    message: '请先在用户中心授权登录后发帖'
+                }).then(() => {
+                    wx.navigateBack()
+                });
+            }
+        })
     },
 
     /**
@@ -97,21 +116,29 @@ Page({
      */
     onUnload: function () {
         var that = this
-        wx.cloud.deleteFile({
-            fileList: that.data.images
-        }).then(res => {
-            // handle success
-            console.log(res.fileList)
-        }).catch(error => {
-            console.error
-        })
+        if (this.data.confirmButton === '发布') {
+            wx.cloud.deleteFile({
+                fileList: that.data.images
+            }).then(res => {
+                // handle success
+                console.log(res.fileList)
+            }).catch(error => {
+                console.error
+            })
+        }
+        let pages = getCurrentPages(); //页面栈
+        console.log(pages)
+        let beforePage = pages[pages.length - 2];
+        if(beforePage.route == 'pages/item_page/item_page'){
+            beforePage.onPullDownRefresh()
+        }
     },
 
     /**
      * Page event handler function--Called when user drop down
      */
     onPullDownRefresh: function () {
-
+        wx.stopPullDownRefresh();
     },
 
     /**
@@ -390,7 +417,7 @@ Page({
                     num_seen: 0,
                     num_share: 0,
                     num_collected: 0,
-                    gps: app.globalData.gps,
+                    gps: JSON.stringify(this.data.gps),
                 },
                 success: function (res) {
                     Toast.clear()
@@ -419,6 +446,7 @@ Page({
                         duration: 1500,
                         selector: '#post-fail'
                     })
+                    console.log(res);
                 }
             })
         } else if (this.data.confirmButton === '修改') {
@@ -451,7 +479,7 @@ Page({
                 price_origin: this.data.priceOrigin,
                 images: this.data.images,
                 date: new Date().toLocaleString(),
-                gps: app.globalData.gps,
+                gps: JSON.stringify(this.data.gps),
             }
             var that = this
             wx.cloud.callFunction({

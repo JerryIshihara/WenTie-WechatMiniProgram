@@ -32,4 +32,4 @@
 </van-tabs>
 
 <!-- 授权 -->
-<authorize show="{{ !userInfo }}" bind:success="onReady" />
+<authorize show="{{ showAuth }}" bind:success="onReady" />

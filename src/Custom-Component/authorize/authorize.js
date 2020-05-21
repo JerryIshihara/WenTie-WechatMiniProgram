@@ -38,6 +38,7 @@ Component({
             wx.getUserInfo({
               success: function (res) {
                 app.globalData.userInfo = res.userInfo,
+                wx.setStorageSync('userInfo', res.userInfo);
                 that.triggerEvent('success', {}, {})
                 if (app.globalData.userInfo != null) {
                   console.log("成功同步'globalData'用户信息")
@@ -58,10 +59,12 @@ Component({
       wx.getLocation({
         type: 'wgs84',
         success: function (res) {
-          app.globalData.gps = {
+          const GPS = {
             latitude: res.latitude,
             longitude: res.longitude
           }
+          app.globalData.gps = GPS
+          wx.setStorageSync('gps', GPS);
           console.log(app.globalData.gps)
         }
       })

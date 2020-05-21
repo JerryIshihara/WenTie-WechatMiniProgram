@@ -30,6 +30,7 @@ Page({
     showInstruction: false,
     noInstruction: false,
     step_index: 0,
+    modified: false,
     steps: [{
         text: '问帖',
       },
@@ -71,15 +72,22 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
+    const that = this
     wx.setNavigationBarTitle({
       title: '商品详细'
     })
-    this.setData({
-      item: JSON.parse(decodeURIComponent(options.item)),
-      userGps: app.globalData.gps,
-      userInfo: app.globalData.userInfo,
-      showInstruction: wx.getStorageSync('showInstruction')
-    })
+    if (options.item) {
+      this.setData({
+        item: JSON.parse(decodeURIComponent(options.item)),
+        userInfo: wx.getStorageSync('userInfo'),
+        showInstruction: wx.getStorageSync('showInstruction'),
+        modified: false,
+        userGps: wx.getStorageSync('gps'),
+      })
+    } else {
+      this.onPullDownRefresh();
+    }
+
     const _this = this;
     console.log("item_id " + this.data.item._id);
     // 查询收藏记录
@@ -134,16 +142,18 @@ Page({
    * Lifecycle function--Called when page unload
    */
   onUnload: function () {
-    let pages = getCurrentPages(); //页面栈
-    let beforePage = pages[pages.length - 2];
-    wx.switchTab({
-        url:'/'+ beforePage.route,
-        success:function(){
-            if(beforePage.route == 'pages/home/home'){
-                beforePage.onPullDownRefresh()
-            }
-        }
-    })
+    if (this.data.modified) {
+      let pages = getCurrentPages(); //页面栈
+      let beforePage = pages[pages.length - 2];
+      wx.switchTab({
+          url:'/'+ beforePage.route,
+          success:function(){
+              if(beforePage.route == 'pages/home/home'){
+                  beforePage.onPullDownRefresh()
+              }
+          }
+      })
+    }
   },
 
   /**
@@ -155,13 +165,13 @@ Page({
       success: function (res) {
         console.log(res)
         _this.setData({
-          loading: false,
           item: res.data,
-          userGps: app.globalData.gps,
-          status: _this.item.status
+          status: res.data.status,
+          loading: false,
         })
       }
     })
+
     this.getAskRecord();
     wx.stopPullDownRefresh();
   },
@@ -415,6 +425,7 @@ Page({
   },
 
   editItem: function () {
+    this.setData({ modified: true })
     const item = JSON.stringify(this.data.item)
     wx.navigateTo({
       url: "../post/post?item=" + encodeURIComponent(item),
@@ -445,6 +456,7 @@ Page({
 
 
   deleteItem: function () {
+    const that = this
     Dialog.confirm({
         selector: '#delete-item',
         title: "删帖",
@@ -460,10 +472,11 @@ Page({
           name: 'deleteItem',
           // 传给云函数的参数
           data: {
-            item: this.data.item,
+            item: that.data.item,
           },
           success: function (res) {
             console.log(res)
+            that.setData({ modified: true })
             Dialog.close({
               selector: '#delete-item'
             })
@@ -701,6 +714,7 @@ Page({
     })
       .then(() => {
         that.completeTransaction()
+        that.setData({ modified: true })
       })
       .catch(() => {
         // on cancel

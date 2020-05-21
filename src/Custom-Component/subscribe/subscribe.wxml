@@ -1,9 +1,11 @@
 <!--Custom-Component/subscribe/subscribe.wxml-->
 <!-- 消息订阅 -->
+
+<!-- TODO: message to authShow -->
 <van-dialog
     use-slot
     title="订阅消息提醒"
-    show="{{ showAuth }}"
+    show="{{ false }}"
     show-cancel-button
     bind:cancel="onCancel"
     bind:confirm="subscribeMessage"
