@@ -612,11 +612,12 @@ Page({
       name: 'notifyNewMessage',
       // 传给云函数的参数
       data: {
+        templateId: app.globalData.tmplIds[0],
         openid: that.data.item._openid,
         nickName: app.globalData.userInfo.nickName,
         time: util.formatTime(new Date()),
-        title: '商品: ' + that.data.item.title,
-        type: '类型: ' + type,
+        title: that.data.item.title,
+        type: type,
       },
       success: function (res) {
         console.log(res)

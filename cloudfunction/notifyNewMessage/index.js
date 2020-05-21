@@ -13,27 +13,26 @@ exports.main = async (event, context) => {
   try {
     console.log(event)
     const thing7 = event.type == '问帖' ? event.type : '确认交易';
-    // TODO: message
-    // return await cloud.openapi.subscribeMessage.send({
-    //   touser: event.openid,
-    //   page: 'pages/message/message',
-    //   miniprogramState: 'developer',
-    //   templateId: 'lCGrw_TKDvUfH7hoTu0kfGUhlcSS7gSKU53JGDAGcjo',
-    //   data: {
-    //     thing4: {
-    //       value: event.nickName
-    //     },
-    //     time3: {
-    //       value: event.time
-    //     },
-    //     thing2: {
-    //       value: event.title
-    //     },
-    //     thing7: {
-    //       value: thing7
-    //     }
-    //   },
-    // })
+    return await cloud.openapi.subscribeMessage.send({
+      touser: event.openid,
+      page: 'pages/message/message',
+      miniprogramState: 'developer',
+      templateId: event.templateId,
+      data: {
+        thing1: {
+          value: event.nickName
+        },
+        thing2: {
+          value: event.title
+        },
+        time3: {
+          value: event.time
+        },
+        thing4: {
+          value: event.type
+        }
+      },
+    })
   } catch (e) {
     console.log(e)
   }

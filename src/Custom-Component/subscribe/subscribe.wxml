@@ -5,7 +5,7 @@
 <van-dialog
     use-slot
     title="订阅消息提醒"
-    show="{{ false }}"
+    show="{{ show && showAuth }}"
     show-cancel-button
     bind:cancel="onCancel"
     bind:confirm="subscribeMessage"

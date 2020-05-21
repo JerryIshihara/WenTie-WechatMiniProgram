@@ -19,6 +19,7 @@ Page({
     type: ['ask', 'give'],
     themeColor: app.globalData.themeColour,
     gps: null,
+    showAuth: false,
   },
 
   /**
@@ -26,6 +27,16 @@ Page({
    */
   onLoad: function (options) {
     const _this = this
+    // wx.getSetting({
+    //   withSubscriptions: true,
+    //   success(res) {
+    //     console.log('通知')
+    //     console.log(res)
+    //     const resp = res.subscriptionsSetting[app.globalData.tmplIds[0]]
+    //     _this.setData({ showAuth: resp !== 'accept' })
+    //   }
+    // })
+    app.subscribe();
     db.collection('item_asked').where({
         item: {
           _openid: app.globalData.openid

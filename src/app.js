@@ -110,18 +110,17 @@ App({
         category: ['推荐', '家用电器', '电子数码', '图书课件', '美妆个护', '居家日用', '服饰珠宝', '母婴用品', '宠物用品', '二手车', '租房', '其他'],
         maxPriceLength: 7,
         tmplIds: [
-            // 'lCGrw_TKDvUfH7hoTu0kfGUhlcSS7gSKU53JGDAGcjo',
+            '2unlLEZYr-MOTGodr95ri0ffT63mTVOA_AN_bCI2Vok'
             // 'sNjrgS4VpnOm28vMIucdym36NK0-xE96ZRlyrNMYg2c'
         ],
     },
 
     subscribe: function () {
-        // TODO: message
-        // wx.requestSubscribeMessage({
-        //     tmplIds: this.globalData.tmplIds,
-        //     success(res) {
-        //         console.log(res)
-        //     }
-        // })
+        wx.requestSubscribeMessage({
+            tmplIds: this.globalData.tmplIds,
+            success(res) {
+                console.log(res)
+            }
+        })
     }
 })
