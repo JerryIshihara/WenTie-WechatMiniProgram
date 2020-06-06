@@ -27,7 +27,6 @@ const wxuuid = function () {
 
   var uuid = s.join("");
   return uuid
-
 }
 
 const getDistance = function (gps1, gps2) {
@@ -47,14 +46,33 @@ const getDistance = function (gps1, gps2) {
   var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
   var r = 6378137;
   var distance = r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)));
-  
+
   console.log(distance)
   return distance;
 }
 
+const compressImage = function(path) {
+
+  const ctx = wx.createCanvasContext('compress');  //创建画布对象  
+  ctx.drawImage(path, 0, 0, 200, 200);  //添加图片
+  ctx.draw();
+  wx.canvasToTempFilePath({     //将canvas生成图片
+    canvasId: 'gameCanvas',
+    x: 0,
+    y: 0,
+    width: 200,
+    height: 200,
+    destWidth: 200,     //截取canvas的宽度
+    destHeight: 200,   //截取canvas的高度
+    success: function (res) {
+      let result = res.tempFilePath
+    }
+  })
+  return result;
+}
 
 module.exports = {
   wxuuid: wxuuid,
   formatTime: formatTime,
-  getDistance: getDistance,
+  getDistance: getDistance
 }

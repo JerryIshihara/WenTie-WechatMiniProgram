@@ -147,4 +147,5 @@
 
 <!-- 授权 -->
 <van-dialog id="authorize" />
+<canvas canvas-id='compress' id='compress' style="position:fixed;top:-1000px"></canvas>
 

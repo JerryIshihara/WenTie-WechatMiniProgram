@@ -2,6 +2,7 @@
 import Toast from '../../UI/dist/toast/toast';
 import Dialog from '../../UI/dist/dialog/dialog';
 const app = getApp()
+const db = app.globalData.dataBase
 const util = require('../../utils/util.js')
 
 
@@ -29,6 +30,7 @@ Page({
         deleteCandidateImage: [],
         maxPriceLength: app.globalData.maxPriceLength,
         gps: null,
+        security: 0,
     },
 
     /**
@@ -73,7 +75,9 @@ Page({
             key: 'gps',
             success(res) {
                 console.log(res)
-                that.setData({ gps: res.data})
+                that.setData({
+                    gps: res.data
+                })
             },
             fail(res) {
                 console.log(res)
@@ -90,7 +94,9 @@ Page({
             key: 'userInfo',
             success(res) {
                 console.log(res)
-                that.setData({ userInfo: res.data})
+                that.setData({
+                    userInfo: res.data
+                })
             },
             fail(res) {
                 Dialog.alert({
@@ -129,7 +135,7 @@ Page({
         let pages = getCurrentPages(); //页面栈
         console.log(pages)
         let beforePage = pages[pages.length - 2];
-        if(beforePage.route == 'pages/item_page/item_page'){
+        if (beforePage.route == 'pages/item_page/item_page') {
             beforePage.onPullDownRefresh()
         }
     },
@@ -180,39 +186,106 @@ Page({
                     message: "正在上传",
                     selector: '#loading'
                 })
-                // 压缩图片
                 // 云端上传
                 let lastIndex = res.tempFilePaths.length - 1
                 console.log(lastIndex)
                 for (var i = 0; i < res.tempFilePaths.length; i++) {
                     let index = i
-                    let img = res.tempFilePaths[i]
                     let time = new Date().getTime()
-                    wx.cloud.uploadFile({
-                        cloudPath: util.wxuuid(),
-                        filePath: img, // 文件路径
+                    let img = res.tempFilePaths[i]
+                    wx.getImageInfo({
+                        src: img,
                         success: res => {
-                            // get resource ID
-                            console.log("云端上传成功:" + res.fileID)
-                            that.setData({
-                                images: that.data.images.concat([res.fileID]),
-                                imageUrls: that.data.imageUrls.concat([img])
-                            })
-                            if (index == lastIndex) {
-                                Toast.clear()
-                            }
-                        },
-                        fail: err => {
-                            // handle error
-                            console.log(err)
-                            Toast.clear()
-                            Toast.fail({
-                                message: '上传失败',
-                                duration: 1500,
-                                selector: '#post-fail'
-                            })
+                            console.log(res)
+                            // 压缩图片
+                            const ctx = wx.createCanvasContext('compress', that); //创建画布对象  
+                            ctx.drawImage(img, 0, 0, res.width, res.height); //添加图片
+                            ctx.draw(false, setTimeout(__ => {
+                                wx.canvasToTempFilePath({ //将canvas生成图片
+                                    canvasId: 'compress',
+                                    x: 0,
+                                    y: 0,
+                                    width: res.width,
+                                    height: res.height,
+                                    destWidth: res.width, //截取canvas的宽度
+                                    destHeight: res.height,
+                                    fileType: 'jpg',
+                                    quality: 0.1,
+                                    success: res => {
+                                        wx.getFileSystemManager().readFile({
+                                            filePath: res.tempFilePath, //这里做示例，所以就选取第一张图片
+                                            success: buffer => {
+                                                console.log(buffer.data)
+                                                //这里是 云函数调用方法
+                                                wx.cloud.callFunction({
+                                                    name: 'SecurityCheck',
+                                                    data: {
+                                                        value: buffer.data
+                                                    },
+                                                    success: function (res) {
+                                                        console.log(res);
+                                                        //   var imgPass = res.result.imageR.errCode || 0
+                                                        //   var txtPass = res.result.msgR.errCode || 0
+                                                        // 内容警告
+                                                        if (res.result.errCode == 87014) {
+                                                            Toast.clear()
+                                                            wx.showToast({
+                                                                title: '内容不合法',
+                                                            })
+                                                            db.collection('dangerous_usr').add({
+                                                                data: {
+                                                                    userInfo: that.data.userInfo,
+                                                                },
+                                                                success: function (res) {
+                                                                    console.log(res)
+                                                                },
+                                                                fail: function (res) {
+                                                                    console.log(res);
+                                                                }
+                                                            })
+                                                        } else {
+                                                            wx.cloud.uploadFile({
+                                                                cloudPath: util.wxuuid(),
+                                                                filePath: img, // 文件路径
+                                                                success: res => {
+                                                                    // get resource ID
+                                                                    console.log("云端上传成功:" + res.fileID)
+                                                                    that.setData({
+                                                                        images: that.data.images.concat([res.fileID]),
+                                                                        imageUrls: that.data.imageUrls.concat([img])
+                                                                    })
+                                                                    if (index == lastIndex) {
+                                                                        Toast.clear()
+                                                                    }
+                                                                },
+                                                                fail: err => {
+                                                                    // handle error
+                                                                    console.log(err)
+                                                                    Toast.clear()
+                                                                    Toast.fail({
+                                                                        message: '上传失败',
+                                                                        duration: 1500,
+                                                                        selector: '#post-fail'
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+                                                    },
+                                                    fail: console.error
+                                                })
+                                            }
+                                        })
+                                    },
+                                    fail: res => {
+                                        console.log(res)
+                                    }
+                                }, that)
+                            }, 300));
                         }
                     })
+
+
+
                 }
             }
         })
@@ -376,6 +449,7 @@ Page({
 
     onPost: function () {
         // this.getValidImageUrls()
+        var that = this;
         if (!this.data.itemTitle) {
             Toast.fail({
                 message: '请填物品名称',
@@ -394,14 +468,48 @@ Page({
                 duration: 1500,
                 selector: '#price'
             })
-        } else if (this.data.confirmButton === '发布') {
+        } else {
+            wx.cloud.callFunction({
+                name: 'SecurityCheck',
+                data: {
+                    txt: that.data.title + ' ' + that.data.description,
+                },
+                success: function (res) {
+                    console.log(res);
+                    // 内容警告
+                    if (res.result.errCode == 87014) {
+                        wx.showToast({
+                            title: '内容不合法',
+                        })
+                        db.collection('dangerous_usr').add({
+                            data: {
+                                userInfo: that.data.userInfo,
+                            },
+                            success: function (res) {
+                                console.log(res)
+                            },
+                            fail: function (res) {
+                                console.error;
+                            }
+                        })
+                    } else {
+                        that.postOrModify()
+                    }
+                },
+                fail: console.error
+            })
+        }
+    },
+
+    postOrModify: function () {
+        if (this.data.confirmButton === '发布') {
             Toast.loading({
                 duration: 0,
                 forbidClick: true,
                 message: "正在发布",
                 selector: '#loading'
             });
-            const db = app.globalData.dataBase
+
             var that = this
             db.collection('items').add({
                 data: {
@@ -515,6 +623,5 @@ Page({
                 fail: console.error
             })
         }
-    },
-
+    }
 })

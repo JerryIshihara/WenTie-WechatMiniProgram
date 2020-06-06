@@ -5,7 +5,7 @@
 <image width="400px;" src="./问帖.jpg"/>
 
 # MetaData
-##### App Id: wx907da2553d0d10af 
+##### App Id: wx6a5306300cb3961c 
 ##### App Id: wx94fcd5d0f94febc6 (previous)
 
 # Collaboration Rules
