@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const db = app.globalData.dataBase
+const top = 'WENTIE_ZHIDING'
 
 Page({
     data: {
@@ -30,9 +31,10 @@ Page({
     // 页面加载时触发
     onLoad: function() {
         const _this = this
-        db.collection('items').where({
-          status: 'post',
-        }).get({
+        db.collection('items')
+        .where({ status: 'post'})
+        .orderBy('code', 'asc')
+        .get({
           success: function (res) {
             console.log(res)
             _this.setData({ loading: false, items: res.data.reverse() })

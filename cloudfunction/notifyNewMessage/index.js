@@ -21,10 +21,10 @@ exports.main = async (event, context) => {
         name1: {
           value: event.nickName
         },
-        date2: {
+        date3: {
           value: event.time
         },
-        thing3: {
+        thing2: {
           value: event.title
         }
       },

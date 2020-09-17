@@ -14,6 +14,7 @@ Page({
         userInfo: app.globalData.userInfo,
         authorizeShow: false,
         images: [],
+        newAddImage: [],
         imageUrls: [],
         themeColor: '',
         categories: [],
@@ -27,10 +28,13 @@ Page({
         priceOrigin: '',
         confirmButton: '发布',
         id: null,
+        code: '',
         deleteCandidateImage: [],
         maxPriceLength: app.globalData.maxPriceLength,
         gps: null,
         security: 0,
+        cWidth: 0,
+        cHeight: 0,
     },
 
     /**
@@ -131,6 +135,16 @@ Page({
             }).catch(error => {
                 console.error
             })
+        } else if (this.data.confirmButton === '修改') {
+            var newImages = this.data.newAddImage.map(i => i.img)
+            wx.cloud.deleteFile({
+                fileList: newImages
+            }).then(res => {
+                // handle success
+                console.log(res.fileList)
+            }).catch(error => {
+                console.error
+            })
         }
         let pages = getCurrentPages(); //页面栈
         console.log(pages)
@@ -165,14 +179,17 @@ Page({
         this.setData({
             itemTitle: e.detail
         })
-
+    },
+    inputCode: function (e) {
+        this.setData({
+            code: e.detail
+        })
     },
     inputDescription: function (e) {
         this.setData({
             itemDescription: e.detail
         })
     },
-
     chooseImage(e) {
         let that = this
         wx.chooseImage({
@@ -183,7 +200,7 @@ Page({
                 Toast.loading({
                     duration: 0,
                     forbidClick: true,
-                    message: "正在上传",
+                    message: "图片检测中...",
                     selector: '#loading'
                 })
                 // 云端上传
@@ -198,28 +215,33 @@ Page({
                         success: res => {
                             console.log(res)
                             // 压缩图片
+                            const imgType = res.type;
                             const ctx = wx.createCanvasContext('compress', that); //创建画布对象  
-                            ctx.drawImage(img, 0, 0, res.width, res.height); //添加图片
+                            that.setData({
+                                cWidth: Math.round(res.width * 0.5),
+                                cHeight: Math.round(res.height * 0.5)
+                            })
+                            ctx.drawImage(img, 0, 0, Math.round(res.width * 0.5), Math.round(res.height * 0.5)); //添加图片
                             ctx.draw(false, setTimeout(__ => {
                                 wx.canvasToTempFilePath({ //将canvas生成图片
                                     canvasId: 'compress',
                                     x: 0,
                                     y: 0,
-                                    width: res.width,
-                                    height: res.height,
-                                    destWidth: res.width, //截取canvas的宽度
-                                    destHeight: res.height,
+                                    // width: res.width,
+                                    // height: res.height,
+                                    destWidth: Math.round(res.width * 0.5), //截取canvas的宽度
+                                    destHeight: Math.round(res.height * 0.5),
                                     fileType: 'jpg',
                                     quality: 0.1,
                                     success: res => {
                                         wx.getFileSystemManager().readFile({
                                             filePath: res.tempFilePath, //这里做示例，所以就选取第一张图片
                                             success: buffer => {
-                                                console.log(buffer.data)
                                                 //这里是 云函数调用方法
                                                 wx.cloud.callFunction({
                                                     name: 'SecurityCheck',
                                                     data: {
+                                                        contentType: 'image/' + imgType,
                                                         value: buffer.data
                                                     },
                                                     success: function (res) {
@@ -229,8 +251,10 @@ Page({
                                                         // 内容警告
                                                         if (res.result.errCode == 87014) {
                                                             Toast.clear()
-                                                            wx.showToast({
-                                                                title: '内容不合法',
+                                                            Toast.fail({
+                                                                message: '包含敏感信息',
+                                                                duration: 1500,
+                                                                selector: '#post-fail'
                                                             })
                                                             db.collection('dangerous_usr').add({
                                                                 data: {
@@ -244,34 +268,82 @@ Page({
                                                                 }
                                                             })
                                                         } else {
-                                                            wx.cloud.uploadFile({
-                                                                cloudPath: util.wxuuid(),
-                                                                filePath: img, // 文件路径
-                                                                success: res => {
-                                                                    // get resource ID
-                                                                    console.log("云端上传成功:" + res.fileID)
-                                                                    that.setData({
-                                                                        images: that.data.images.concat([res.fileID]),
-                                                                        imageUrls: that.data.imageUrls.concat([img])
-                                                                    })
-                                                                    if (index == lastIndex) {
+                                                            Toast.clear()
+                                                            if (that.data.confirmButton === '发布') {
+                                                                Toast.loading({
+                                                                    duration: 0,
+                                                                    forbidClick: true,
+                                                                    message: "正在上传...",
+                                                                    selector: '#loading'
+                                                                })
+                                                                wx.cloud.uploadFile({
+                                                                    cloudPath: util.wxuuid(),
+                                                                    filePath: img, // 文件路径
+                                                                    success: res => {
+                                                                        // get resource ID
+                                                                        console.log("云端上传成功:" + res.fileID)
+                                                                        that.setData({
+                                                                            images: that.data.images.concat([res.fileID]),
+                                                                            imageUrls: that.data.imageUrls.concat([img])
+                                                                        })
+                                                                        if (index == lastIndex) {
+                                                                            Toast.clear()
+                                                                        }
+                                                                    },
+                                                                    fail: err => {
+                                                                        // handle error
+                                                                        console.log(err)
                                                                         Toast.clear()
+                                                                        Toast.fail({
+                                                                            message: '上传失败',
+                                                                            duration: 1500,
+                                                                            selector: '#post-fail'
+                                                                        })
                                                                     }
-                                                                },
-                                                                fail: err => {
-                                                                    // handle error
-                                                                    console.log(err)
-                                                                    Toast.clear()
-                                                                    Toast.fail({
-                                                                        message: '上传失败',
-                                                                        duration: 1500,
-                                                                        selector: '#post-fail'
-                                                                    })
-                                                                }
-                                                            })
+                                                                })
+                                                            } else if (that.data.confirmButton === '修改') {
+                                                                var len = that.data.images.length;
+                                                                wx.cloud.uploadFile({
+                                                                    cloudPath: util.wxuuid(),
+                                                                    filePath: img, // 文件路径
+                                                                    success: res => {
+                                                                        // get resource ID
+                                                                        console.log("云端上传成功:" + res.fileID)
+                                                                        that.setData({
+                                                                            images: that.data.images.concat([res.fileID]),
+                                                                            imageUrls: that.data.imageUrls.concat([img]),
+                                                                            newAddImage: that.data.newAddImage.concat([{
+                                                                                img: img,
+                                                                                index: len
+                                                                            }]),
+                                                                        })
+                                                                        if (index == lastIndex) {
+                                                                            Toast.clear()
+                                                                        }
+                                                                    },
+                                                                    fail: err => {
+                                                                        // handle error
+                                                                        console.log(err)
+                                                                        Toast.clear()
+                                                                        Toast.fail({
+                                                                            message: '上传失败',
+                                                                            duration: 1500,
+                                                                            selector: '#post-fail'
+                                                                        })
+                                                                    }
+                                                                })
+                                                            }
                                                         }
                                                     },
-                                                    fail: console.error
+                                                    fail: function (res) {
+                                                        Toast.clear()
+                                                        Toast.fail({
+                                                            message: '包含敏感信息',
+                                                            duration: 1500,
+                                                            selector: '#post-fail'
+                                                        })
+                                                        console.log(res)
+                                                    }
                                                 })
                                             }
                                         })
@@ -283,9 +355,6 @@ Page({
                             }, 300));
                         }
                     })
-
-
-
                 }
             }
         })
@@ -323,7 +392,8 @@ Page({
             })
         } else if (this.data.confirmButton === '修改') {
             that.setData({
-                deleteCandidateImage: that.data.deleteCandidateImage.concat([that.data.images[viewId]])
+                deleteCandidateImage: that.data.deleteCandidateImage.concat([that.data.images[viewId]]),
+                // newAddImage: that.data.newAddImage.filter(i => {i.index !== viewId}),
             })
             var images = that.data.images;
             var imageUrls = that.data.imageUrls;
@@ -456,6 +526,12 @@ Page({
                 duration: 1500,
                 selector: '#title'
             })
+        } else if (this.data.itemDescription == '') {
+            Toast.fail({
+                message: '没有写描述哦',
+                duration: 1500,
+                selector: '#price'
+            })
         } else if (this.data.categoryValue == '') {
             Toast.fail({
                 message: '你忘了分类哦',
@@ -468,18 +544,33 @@ Page({
                 duration: 1500,
                 selector: '#price'
             })
+        } else if (this.data.images.length == 0) {
+            Toast.fail({
+                message: '忘了放照片哦',
+                duration: 1500,
+                selector: '#price'
+            })
         } else {
+            Toast.loading({
+                duration: 0,
+                forbidClick: true,
+                message: "检测信息...",
+                selector: '#loading'
+            });
             wx.cloud.callFunction({
                 name: 'SecurityCheck',
                 data: {
-                    txt: that.data.title + ' ' + that.data.description,
+                    txt: that.data.itemTitle + that.data.itemDescription,
                 },
                 success: function (res) {
                     console.log(res);
+                    Toast.clear();
                     // 内容警告
                     if (res.result.errCode == 87014) {
-                        wx.showToast({
-                            title: '内容不合法',
+                        Toast.fail({
+                            message: '包含敏感信息',
+                            duration: 1500,
+                            selector: '#post-fail'
                         })
                         db.collection('dangerous_usr').add({
                             data: {
@@ -493,6 +584,7 @@ Page({
                             }
                         })
                     } else {
+                        Toast.clear();
                         that.postOrModify()
                     }
                 },
@@ -526,6 +618,7 @@ Page({
                     num_share: 0,
                     num_collected: 0,
                     gps: JSON.stringify(this.data.gps),
+                    code: this.data.code,
                 },
                 success: function (res) {
                     Toast.clear()
@@ -564,7 +657,7 @@ Page({
                 forbidClick: true,
                 message: "正在修改",
                 selector: '#loading'
-            });
+            })
             wx.cloud.deleteFile({
                 fileList: that.data.deleteCandidateImage,
                 success: res => {
@@ -577,17 +670,17 @@ Page({
                     console.log("云端删除失败:" + err)
                 }
             })
-            const db = app.globalData.dataBase
             var data = {
-                userInfo: this.data.userInfo,
-                title: this.data.itemTitle,
-                description: this.data.itemDescription,
-                tag: this.data.categoryValue,
-                price_offer: this.data.priceOffer,
-                price_origin: this.data.priceOrigin,
-                images: this.data.images,
+                userInfo: that.data.userInfo,
+                title: that.data.itemTitle,
+                description: that.data.itemDescription,
+                tag: that.data.categoryValue,
+                price_offer: that.data.priceOffer,
+                price_origin: that.data.priceOrigin,
+                images: that.data.images,
                 date: new Date().toLocaleString(),
-                gps: JSON.stringify(this.data.gps),
+                gps: JSON.stringify(that.data.gps),
+                code: that.data.code,
             }
             var that = this
             wx.cloud.callFunction({
@@ -623,5 +716,5 @@ Page({
                 fail: console.error
             })
         }
-    }
+    },
 })

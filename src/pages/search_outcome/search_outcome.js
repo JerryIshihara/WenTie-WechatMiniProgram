@@ -157,13 +157,24 @@ Page({
       gps: app.globalData.gps,
     })
     keyWord = keyWord === null ? '' : keyWord
-    db.collection('items').where({
-      title: db.RegExp({
-        regexp: keyWord,
-        options: 'i',
-      }),
-      status: 'post',
-    }).get({
+    db.collection('items').where(
+        _.or([
+          {
+            title: db.RegExp({
+              regexp: keyWord,
+              options: 'i',
+            }),
+            status: 'post',
+          },
+          {
+            description: db.RegExp({
+              regexp: keyWord,
+              options: 'i',
+            }),
+            status: 'post',
+          }
+        ])
+  ).get({
       success: function (res) {
         console.log(res)
         _this.setData({

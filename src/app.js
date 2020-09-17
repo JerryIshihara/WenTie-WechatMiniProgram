@@ -1,8 +1,8 @@
 //app.js
-// const ENV = 'dev-mv1xd';
-const ENV = 'release-me7mx';
-// const ENV_TYPE = 'dev'
-const ENV_TYPE = 'release'
+const ENV = 'dev-z3xe9';
+// const ENV = 'release-me7mx';
+const ENV_TYPE = 'dev'
+// const ENV_TYPE = 'release'
 
 App({
     onLaunch: function () {
@@ -52,8 +52,8 @@ App({
         wx.login({
             success: res => {
                 // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                var appid = 'wx6a5306300cb3961c' //填写微信小程序appid
-                var secret = '2b0a2087f50ae33eb6c70c800ee50b84' //填写微信小程序secret
+                var appid = 'wx949ef36f48aba565' //填写微信小程序appid
+                var secret = '7cf646deb617ba8b0bbbd2f5561690f8' //填写微信小程序secret
                 var code = res.code
                 var url = 'https://api.weixin.qq.com/sns/jscode2session' +
                     '?appid=' + appid +
@@ -110,7 +110,7 @@ App({
         category: ['推荐', '家用电器', '电子数码', '图书课件', '美妆个护', '居家日用', '服饰珠宝', '母婴用品', '宠物用品', '二手车', '租房', '其他'],
         maxPriceLength: 7,
         tmplIds: [
-            'ujv3aPWtAiH-wh77XdpWutynhEzgFh_mWM30reMPGWg',
+            'd5n7Qe_udUbCFIR1BjcGky_Dqq6SQkkx-f_JIofm_XM',
             // 'sNjrgS4VpnOm28vMIucdym36NK0-xE96ZRlyrNMYg2c'
         ],
     },

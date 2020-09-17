@@ -10,28 +10,10 @@
   />
 </van-cell-group> -->
 <view class="post-input-wrp">
-    <van-cell-group>
-        <van-field
-            placeholder="在此填写物品名称，如“笔记本电脑”"
-            value = "{{itemTitle}}"
-            placeholder-class="post-name-placeholder"
-            label="名称"
-            clearable
-            maxlength="40"
-            bind:input="inputTitle"
-        />
-        <van-field
-            value="{{ itemDescription }}"
-            type="textarea"
-            placeholder="在此填写物品描述"
-            label="描述"
-            autosize
-            clearable
-            maxlength="200"
-            border="{{ false }}"
-            bindinput="inputDescription"
-        />
-        <!-- <view class="post-item-description-wrp">
+	<van-cell-group>
+		<van-field placeholder="在此填写物品名称，如“笔记本电脑”" value="{{itemTitle}}" placeholder-class="post-name-placeholder" label="名称" clearable maxlength="40" bind:input="inputTitle" />
+		<van-field value="{{ itemDescription }}" type="textarea" placeholder="在此填写物品描述" label="描述" autosize clearable maxlength="200" border="{{ false }}" bindinput="inputDescription" />
+		<!-- <view class="post-item-description-wrp">
              <textarea
                     class="post-item-description"
                     placeholder="{{descriptionPlaceholder}}"
@@ -44,25 +26,19 @@
                 />
 
         </view> -->
-    </van-cell-group>
+	</van-cell-group>
 </view>
 
 <!-- 标签价格 -->
 <view class="post-input-wrp">
-    <van-cell-group>
-        <!-- 分类 -->
-        <van-cell title="分类" bind:click="showCategory" value="{{categoryValue}}" is-link />
-        <van-popup position="bottom" show="{{ categoryPopupShow }}" bind:close="closeCategory" style="width:100%;">
-            <van-picker
-                show-toolbar
-                title="分类"
-                columns="{{ categories }}"
-                bind:cancel="closeCategory"
-                bind:confirm="onConfirmCategory"
-            />
-        </van-popup>
+	<van-cell-group>
+		<!-- 分类 -->
+		<van-cell title="分类" bind:click="showCategory" value="{{categoryValue}}" is-link />
+		<van-popup position="bottom" show="{{ categoryPopupShow }}" bind:close="closeCategory" style="width:100%;">
+			<van-picker show-toolbar title="分类" columns="{{ categories }}" bind:cancel="closeCategory" bind:confirm="onConfirmCategory" />
+		</van-popup>
 
-        <!-- 地区
+		<!-- 地区
         <van-cell title="地区" bind:click="showLocation" value="{{locationValue}}" is-link />
         <van-popup position="bottom" show="{{ locationPopupShow }}" bind:close="closeLocation" style="width:100%;">
             <van-picker
@@ -73,79 +49,85 @@
                 bind:confirm="onConfirmLocation"
             />
         </van-popup> -->
-        <!-- 价格 -->
-        <van-cell title="价格" bind:click="showPrice" value="{{priceValue}}" is-link/>
-        <!-- 键盘 -->
-        <van-popup position="bottom" show="{{pricePopupShow}}" bind:close="closePrice" style="width:100%;" style="position:relative;">
-            <keyboard themeColor="{{themeColor}}" bind:confirm="confirmPrice" bind:cancel="closePrice" maxPriceLength="{{ maxPriceLength }}" />
-        </van-popup>
-    </van-cell-group>
+		<!-- 价格 -->
+		<van-cell title="价格" bind:click="showPrice" value="{{priceValue}}" is-link />
+		<!-- 键盘 -->
+		<van-popup position="bottom" show="{{pricePopupShow}}" bind:close="closePrice" style="width:100%;" style="position:relative;">
+			<keyboard themeColor="{{themeColor}}" bind:confirm="confirmPrice" bind:cancel="closePrice" maxPriceLength="{{ maxPriceLength }}" />
+		</van-popup>
+	</van-cell-group>
+</view>
+
+<!-- 标签价格 -->
+<view class="post-input-wrp">
+	<van-cell-group>
+		<van-field placeholder="商品置顶码（optional）" value="{{code}}" placeholder-class="post-name-placeholder" label="置顶码" clearable maxlength="40" bind:input="inputCode" />
+	</van-cell-group>
 </view>
 
 <!-- 添加图片 -->
 <block wx:if="{{imageUrls.length == 0}}">
-    <view class="post-images post-center-image">
-        <image class="post-add-icon" src="../../img/camera_white.png" bindtap="chooseImage"/>
-    </view>    
+	<view class="post-images post-center-image">
+		<image class="post-add-icon" src="../../img/camera_white.png" bindtap="chooseImage" />
+	</view>
 </block>
 <block wx:else>
-    <scroll-view scroll-x style="height:120px;background:white;margin:10px 0px;white-space:nowrap;">
-        <block wx:if="{{imageUrls.length < 9}}">
-            <!-- <image class="post-add-icon" src="../../img/camera_grey.png" bindtap="chooseImage"/> -->
-            <view class="post-image-cover"> 
-                <image class="post-image" src="../../img/camera_grey.png" mode="aspectFill" bindtap="chooseImage"/>
-            </view>
-        </block>
-        <block wx:for="{{imageUrls}}" wx:key="this" wx:for-index="index">
-            <view class="post-image-cover"> 
-                <image class="post-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="preview"/>
-                <!-- 封面字样 -->
-                <block wx:if="{{index == 0}}">
-                    <view class="cover-image">
-                        <text class="cover-image-text">封面</text>
-                    </view>
-                </block>
-                <!-- 照片删除按钮 -->
-                <view class="image-cancel-button" data-idx="{{index}}" bindtap="onTapCancelImage"> 
-                    <image class="cancel-button" mode="aspectFit" src="../../img/close.png"></image>
-                </view>
-            </view>
-        </block>
-    </scroll-view>
+	<scroll-view scroll-x style="height:120px;background:white;margin:10px 0px;white-space:nowrap;">
+		<block wx:if="{{imageUrls.length < 9}}">
+			<!-- <image class="post-add-icon" src="../../img/camera_grey.png" bindtap="chooseImage"/> -->
+			<view class="post-image-cover">
+				<image class="post-image" src="../../img/camera_grey.png" mode="aspectFill" bindtap="chooseImage" />
+			</view>
+		</block>
+		<block wx:for="{{imageUrls}}" wx:key="this" wx:for-index="index">
+			<view class="post-image-cover">
+				<image class="post-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="preview" />
+				<!-- 封面字样 -->
+				<block wx:if="{{index == 0}}">
+					<view class="cover-image">
+						<text class="cover-image-text">封面</text>
+					</view>
+				</block>
+				<!-- 照片删除按钮 -->
+				<view class="image-cancel-button" data-idx="{{index}}" bindtap="onTapCancelImage">
+					<image class="cancel-button" mode="aspectFit" src="../../img/close.png"></image>
+				</view>
+			</view>
+		</block>
+	</scroll-view>
 </block>
 
 <!-- 清除图片 -->
 <view class="post-clear-photo-wrp">
-    <image src="../../img/delete.png" style="display:flex;height:17px;width:17px;margin:2px;" bindtap="clearPhoto"/>
-    <view class="post-clear-photo" bindtap="clearPhoto">
-        <text>清除图片</text>
-    </view>
+	<image src="../../img/delete.png" style="display:flex;height:17px;width:17px;margin:2px;" bindtap="clearPhoto" />
+	<view class="post-clear-photo" bindtap="clearPhoto">
+		<text>清除图片</text>
+	</view>
 </view>
 
 <!-- 清除图片 -->
 <view class="post-clear-photo-wrp" style="margin-top:20px;">
-    <view class="post-clear-photo" bindtap="clearPhoto">
-        <text>* 默认第一张上传的图片为封面 *</text>
-    </view>
+	<view class="post-clear-photo" bindtap="clearPhoto">
+		<text>* 默认第一张上传的图片为封面 *</text>
+	</view>
 </view>
 
 <!-- 发布按钮 -->
 <view class="post-button-wrp" bindtap="onPost">
-    <button class="post-button" style="background: {{themeColor}}">
-        <text class="post-button-text">{{ confirmButton }}</text>
-    </button>
+	<button class="post-button" style="background: {{themeColor}}">
+		<text class="post-button-text">{{ confirmButton }}</text>
+	</button>
 </view>
 
 <!-- 失败提示 -->
-<van-toast id="price"/>
-<van-toast id="tag"/>
-<van-toast id="title"/>
-<van-toast id="description"/>
-<van-toast id="post-success"/>
-<van-toast id="post-fail"/>
-<van-toast id="loading"/>
+<van-toast id="price" />
+<van-toast id="tag" />
+<van-toast id="title" />
+<van-toast id="description" />
+<van-toast id="post-success" />
+<van-toast id="post-fail" />
+<van-toast id="loading" />
 
 <!-- 授权 -->
 <van-dialog id="authorize" />
-<canvas canvas-id='compress' id='compress' style="position:fixed;top:-1000px"></canvas>
-
+<canvas canvas-id='compress' id='compress' style="position:fixed;top:-100000px;width:{{cWidth}}px;height:{{cHeight}}px"></canvas>

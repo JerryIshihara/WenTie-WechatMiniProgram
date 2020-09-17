@@ -146,12 +146,12 @@ Page({
       let pages = getCurrentPages(); //页面栈
       let beforePage = pages[pages.length - 2];
       wx.switchTab({
-          url:'/'+ beforePage.route,
-          success:function(){
-              if(beforePage.route == 'pages/home/home'){
-                  beforePage.onPullDownRefresh()
-              }
+        url: '/' + beforePage.route,
+        success: function () {
+          if (beforePage.route == 'pages/home/home') {
+            beforePage.onPullDownRefresh()
           }
+        }
       })
     }
   },
@@ -188,7 +188,7 @@ Page({
    */
   onShareAppMessage: function () {
     return {
-      title: this.data.item.title,
+      title: this.data.item.title + '\n [$' + this.data.item.price_offer + '] ' + this.data.item.description,
       path: 'pages/item_page/item_page?item=' + JSON.stringify(this.data.item),
       imageUrl: this.data.item.images[0],
       success: function (res) {
@@ -370,48 +370,100 @@ Page({
             })
           }
         }
-        // 记录问贴
-        db.collection('item_asked').add({
+        wx.cloud.callFunction({
+          name: 'SecurityCheck',
           data: {
-            item: this.data.item,
-            userInfo: app.globalData.userInfo,
-            WXNumber: this.data.WXNumber,
-            message: this.data.messageText,
-            gps: app.globalData.gps,
+            txt: that.data.WXNumber + ' ' + that.data.messageText,
           },
           success: function (res) {
-            console.log(res)
-            console.log('发送消息')
-            that.notifyMessage('问帖')
-            wx.hideLoading({
-              complete: (res) => {
-                wx.showToast({
-                  title: '问帖成功',
+            console.log(res);
+            Toast.clear();
+            // 内容警告
+            if (res.result.errCode == 87014) {
+              wx.hideLoading({
+                success: (res) => {
+                  Toast.fail({
+                    message: '包含敏感信息',
+                    duration: 1500,
+                    selector: '#post-fail'
                 })
-                that.onPullDownRefresh();
+                },
+              })
+              that.setData({
+                WXNumber: null,
+                rememberWXNumber: false,
+                messageText: ''
+              })
+              db.collection('dangerous_usr').add({
+                data: {
+                  userInfo: app.globalData.userInfo,
+                },
+                success: function (res) {
+                  console.log(res)
+                },
+                fail: function (res) {
+                  console.error;
+                }
+              })
+              Dialog.close();
+            } else {
+              // 记录问贴
+              db.collection('item_asked').add({
+                data: {
+                  item: that.data.item,
+                  userInfo: app.globalData.userInfo,
+                  WXNumber: that.data.WXNumber,
+                  message: that.data.messageText,
+                  gps: app.globalData.gps,
+                },
+                success: function (res) {
+                  console.log(res)
+                  console.log('发送消息')
+                  that.notifyMessage('问帖')
+                  wx.hideLoading({
+                    complete: (res) => {
+                      wx.showToast({
+                        title: '问帖成功',
+                      })
+                      that.onPullDownRefresh();
+                    },
+                  })
+                },
+                fail: function (res) {
+                  console.log(res)
+                }
+              })
+              Dialog.close();
+              that.setData({
+                WXNumber: null,
+                rememberWXNumber: false,
+                messageText: ''
+              })
+              // 用于显示留言记录
+              db.collection('item_asked_record').add({
+                data: {
+                  item_id: that.data.item._id,
+                  avatarUrl: app.globalData.userInfo.avatarUrl,
+                },
+                success: function (res) {
+                  console.log(res)
+                },
+                fail: function (res) {
+                  console.log(res)
+                }
+              })
+            }
+          },
+          fail: function (res) {
+            var err = res
+            wx.hideLoading({
+              success: (res) => {
+                wx.showToast({
+                  title: '检测失败',
+                })
+                console.error(err);
               },
             })
-          },
-          fail: function (res) {
-            console.log(res)
-          }
-        })
-        Dialog.close();
-        that.setData({
-          WXNumber: null,
-          rememberWXNumber: false
-        })
-        // 用于显示留言记录
-        db.collection('item_asked_record').add({
-          data: {
-            item_id: this.data.item._id,
-            avatarUrl: app.globalData.userInfo.avatarUrl,
-          },
-          success: function (res) {
-            console.log(res)
-          },
-          fail: function (res) {
-            console.log(res)
           }
         })
       })
@@ -419,13 +471,16 @@ Page({
         Dialog.close();
         that.setData({
           WXNumber: null,
-          rememberWXNumber: false
+          rememberWXNumber: false,
+          messageText: ''
         })
       });
   },
 
   editItem: function () {
-    this.setData({ modified: true })
+    this.setData({
+      modified: true
+    })
     const item = JSON.stringify(this.data.item)
     wx.navigateTo({
       url: "../post/post?item=" + encodeURIComponent(item),
@@ -476,7 +531,9 @@ Page({
           },
           success: function (res) {
             console.log(res)
-            that.setData({ modified: true })
+            that.setData({
+              modified: true
+            })
             Dialog.close({
               selector: '#delete-item'
             })
@@ -675,7 +732,10 @@ Page({
     // 增加交易记录
     var sold_item = this.data.item
     sold_item.status = 'sold'
-    this.setData({ item: sold_item, status: 'sold' })
+    this.setData({
+      item: sold_item,
+      status: 'sold'
+    })
     // db.collection('item_transaction').add({
     //   data: {
     //     userInfo: e.currentTarget.dataset.item.userInfo,
@@ -683,7 +743,7 @@ Page({
     //     item: sold_item,
     //   },
     //   success: function (res) {
-        
+
     //     console.log(res)
     //   }
     // })
@@ -706,16 +766,18 @@ Page({
     })
   },
 
-  onTapComplete: function() {
+  onTapComplete: function () {
     const that = this
     Dialog.confirm({
-      title: '已卖出',
-      message: '确认卖出后将无法撤销',
-      selector: '#complete-transaction'
-    })
+        title: '已卖出',
+        message: '确认卖出后将无法撤销',
+        selector: '#complete-transaction'
+      })
       .then(() => {
         that.completeTransaction()
-        that.setData({ modified: true })
+        that.setData({
+          modified: true
+        })
       })
       .catch(() => {
         // on cancel
