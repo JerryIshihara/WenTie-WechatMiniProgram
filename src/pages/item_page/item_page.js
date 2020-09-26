@@ -89,7 +89,6 @@ Page({
     }
 
     const _this = this;
-    console.log("item_id " + this.data.item._id);
     // 查询收藏记录
     db.collection('collections').where({
       _openid: app.globalData.openid,

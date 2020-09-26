@@ -613,12 +613,12 @@ Page({
                     price_offer: this.data.priceOffer,
                     price_origin: this.data.priceOrigin,
                     images: this.data.images,
-                    date: new Date().toLocaleString(),
+                    date: new Date().getTime(),
                     num_seen: 0,
                     num_share: 0,
                     num_collected: 0,
                     gps: JSON.stringify(this.data.gps),
-                    code: this.data.code,
+                    code: that.data.code === 'WENTIE_ZHIDING' ? that.data.code : '',
                 },
                 success: function (res) {
                     Toast.clear()
@@ -678,9 +678,9 @@ Page({
                 price_offer: that.data.priceOffer,
                 price_origin: that.data.priceOrigin,
                 images: that.data.images,
-                date: new Date().toLocaleString(),
+                date: new Date().getTime(),
                 gps: JSON.stringify(that.data.gps),
-                code: that.data.code,
+                code: that.data.code === 'WENTIE_ZHIDING' ? that.data.code : '',
             }
             var that = this
             wx.cloud.callFunction({
