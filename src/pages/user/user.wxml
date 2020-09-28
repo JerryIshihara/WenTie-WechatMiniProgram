@@ -26,7 +26,7 @@
               <view class="userinfo-nickname-wrp">
                   <text class="userinfo-nickname">{{userInfo.nickName}}</text>
                   <text style="font-size:12px;font-weight:light;margin:5px;color:#7a7a7a30;">|</text>
-                  <block wx:if="{{userInfo.gender == 1}}">
+                  <block wx:if="{{userInfo.gender}}">
                     <image class="user-gender" src="../../img/男.png" />
                   </block>
                   <block wx:else>
@@ -37,6 +37,16 @@
         </view>
        
     </view>    
+</view>
+
+<view wx:if="{{ is_admin }}">
+  <van-cell
+    is-link
+    title="查看和生成置顶码"
+    icon="hot-o"
+    link-type="navigateTo"
+    url="/pages/top_code/top_code"
+  />
 </view>
 
 <van-tabs active="{{ active }}" color="{{ themeColor }}" bind:change="onChangeTab" border="{{false}}" sticky swipeable>

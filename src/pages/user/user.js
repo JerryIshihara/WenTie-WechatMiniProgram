@@ -19,41 +19,54 @@ Page({
         loading: true,
         items: null,
         sumSold: '0.00',
+        is_admin: false
     },
 
     /**
      * Lifecycle function--Called when page load
      */
     onLoad: function () {
-        console.log('用户页面onLoad: ')
-        console.log(app.globalData.userInfo)
-        wx.setNavigationBarTitle({ title: '我的' })
-        // wx.setNavigationBarColor({
-        //     frontColor: "#ffffff",
-        //     backgroundColor: '#ff6d78'
-        // })
-        this.setData({
-          userInfo: app.globalData.userInfo,
-          gps: app.globalData.gps
-        })
-        db.collection('item_transaction').where({
-          _openid: app.globalData.openid,
-        }).get({
-          success: function (res) {
-            console.log(res);
-            var item_list = []
-            var sum = 0
-            for (var i = 0; i < res.data.length; i++) {
-              sum = sum + parseFloat(res.data[i].item.price_offer)
-            }
-            console.log(item_list);
-            if (res.data.length > 0) {
-              _this.setData({ sumSold: sum.toFixed(2) })
-            }
+      const _this = this;
+      console.log('用户页面onLoad: ')
+      console.log(app.globalData.userInfo)
+      wx.setNavigationBarTitle({ title: '我的' })
+      // wx.setNavigationBarColor({
+      //     frontColor: "#ffffff",
+      //     backgroundColor: '#ff6d78'
+      // })
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        gps: app.globalData.gps
+      })
+      db.collection('item_transaction').where({
+        _openid: app.globalData.openid,
+      }).get({
+        success: function (res) {
+          console.log(res);
+          var item_list = []
+          var sum = 0
+          for (var i = 0; i < res.data.length; i++) {
+            sum = sum + parseFloat(res.data[i].item.price_offer)
           }
-        })
-        const _this = this;
-        this.updateData(this.data.title)
+          console.log(item_list);
+          if (res.data.length > 0) {
+            _this.setData({ sumSold: sum.toFixed(2) })
+          }
+        }
+      })
+
+      // get admin permission
+      db.collection('admin_usr').where({
+        _openid: app.globalData.openid,
+      }).get({
+        success: function (res) {
+          if(res.data.length != 0) {
+            _this.setData({ is_admin: true })
+          }
+        }
+      })
+      
+      this.updateData(this.data.title)
     },
 
     /**
