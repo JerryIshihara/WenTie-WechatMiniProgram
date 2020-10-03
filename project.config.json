@@ -33,7 +33,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.11.1",
 	"appid": "wx949ef36f48aba565",
-	"projectname": "%E9%97%AE%E5%B8%96",
+	"projectname": "WenTie-WechatMiniProgram",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -52,13 +52,28 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/top_code/top_code",
+					"pathName": "pages/top_code/top_code",
+					"scene": null
+				}
+			]
 		}
 	}
 }

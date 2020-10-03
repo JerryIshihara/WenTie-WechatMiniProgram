@@ -1,3 +1,7 @@
+const app = getApp()
+const db = app.globalData.dataBase;
+const _ = db.command
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -27,6 +31,105 @@ const wxuuid = function () {
 
   var uuid = s.join("");
   return uuid
+}
+
+async function generate_topcode_wrapper(_num_code, _expire_length, _call_back) {
+  var generated_code_list = []
+
+  for (let index = 0; index < _num_code; index++) {
+    // generate new code if it is duplicated
+    while(true){
+      let new_code_promise = generate_topcode(_expire_length);
+      let new_code = await new_code_promise;
+      console.log(new_code);
+      if(new_code != "duplicated") {
+        generated_code_list.push(new_code);
+        break;
+      }
+    }
+  }
+
+  _call_back(generated_code_list);
+}
+
+
+// return a unique topcode in db. Form: 3 alphabets following 3 digits (e.g. AAA000, XYZ789)
+// total code: 26^3 * 10^3 = 17576000
+async function generate_topcode (_expire_length) {
+  const alphabet_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const number_list = "0123456789";
+  
+  var new_code_list = [];
+
+  for (let index = 0; index < 3; index++) {
+    new_code_list[index] = alphabet_list.substr(Math.floor(Math.random() * 26), 1);
+    new_code_list[index+3] = number_list.substr(Math.floor(Math.random() * 10), 1);
+  }
+
+  var new_code = new_code_list.join("");
+  console.log(new_code)
+
+  // return new Promise((resolve, reject) => {
+  //   db.collection('top_code').where({
+  //     top_code: new_code,
+  //   }).get().then((res) => {
+  //     resolve(res);
+  //   })
+  // })
+
+  return new Promise((resolve, reject) => {
+    db.collection('top_code').where({
+      top_code: new_code,
+    }).get({
+      success: function (res) {
+        // new top_code
+        if(res.data.length == 0) {
+          // insert new top_code to db
+          db.collection('top_code').add({
+            data: {
+              expire_length: _expire_length,
+              is_activated: false,
+              item_id: "_",
+              start_date: new Date("1970-01-01"),
+              top_code: new_code
+            },
+            success: function(res) {
+              console.log(res)
+              return resolve(new_code);
+            }
+          })
+        } else {
+          resolve("duplicated");
+        }
+      }
+    })
+  })
+  // check whether new_code already exists in db
+  // db.collection('top_code').where({
+  //   top_code: new_code,
+  // }).get({
+  //   success: function (res) {
+  //     // new top_code
+  //     if(res.data.length == 0) {
+  //       // insert new top_code to db
+  //       db.collection('top_code').add({
+  //         data: {
+  //           expire_length: _expire_length,
+  //           is_activated: false,
+  //           item_id: "_",
+  //           start_date: new Date("1970-01-01"),
+  //           top_code: new_code
+  //         },
+  //         success: function(res) {
+  //           console.log(res)
+  //           return new_code;
+  //         }
+  //       })
+  //     } else {
+  //       return "duplicated";
+  //     }
+  //   }
+  // })
 }
 
 const getDistance = function (gps1, gps2) {
@@ -72,6 +175,7 @@ const compressImage = function(path) {
 }
 
 module.exports = {
+  generate_topcode_wrapper: generate_topcode_wrapper,
   wxuuid: wxuuid,
   formatTime: formatTime,
   getDistance: getDistance

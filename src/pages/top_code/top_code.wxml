@@ -1,0 +1,43 @@
+<!--src/pages/top_code/top_code.wxml-->
+<!-- <text>src/pages/top_code/top_code.wxml</text> -->
+<van-cell-group title="批量生成置顶码">
+  <van-field
+    value="{{ num_code }}"
+    label="生成置顶码"
+    placeholder="生成数量"
+    type="number"
+    required
+    bind:change="num_code_change"
+    error-message="{{num_error ? '生成数量必须在1~10之间' : ''}}"
+  />
+
+  <van-field
+    value="{{ expire_length }}"
+    label="有效时长"
+    placeholder="时长(天)"
+    type="number"
+    bind:change="expire_length_change"
+    required
+  />
+</van-cell-group>
+
+<!-- 生成置顶码按钮 -->
+<view class="button-wrp" >
+  <view style="width: 90%; margin: 5%">
+    <button style="background: {{themeColor}}" bindtap="onPost">
+		  <text class="post-button-text">生成置顶码</text>
+	  </button>
+  </view>
+</view>
+
+<van-cell-group title="现有未使用置顶码">
+  <view wx:for='{{top_codes}}' wx:for-index="indexs" wx:for-item="item" wx:key="indexs">
+    <van-cell title="{{item.top_code}}" value="{{item.expire_length}} days" />
+  </view>
+
+  
+</van-cell-group>
+
+<van-toast id="loading" />
+<van-toast id="updating" />
+<van-toast id="post-success" />
