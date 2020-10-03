@@ -1,0 +1,17 @@
+/* src/pages/top_code/top_code.wxss */
+.button-wrp {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 90px;
+  background: white;
+  text-align: center;
+}
+
+.post-button-text {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  padding: 5px;
+}

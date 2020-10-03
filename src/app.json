@@ -6,7 +6,8 @@
     "pages/post/post",
     "pages/post_blank/post_blank",
     "pages/item_page/item_page",
-    "pages/message/message"
+    "pages/message/message",
+    "pages/top_code/top_code"
   ],
   "permission": {
     "scope.userLocation": {
