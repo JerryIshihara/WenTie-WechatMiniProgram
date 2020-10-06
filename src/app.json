@@ -34,16 +34,22 @@
         "text": "首页"
       },
       {
+        "pagePath": "pages/message/message",
+        "iconPath": "img/tabBar/email.png",
+        "selectedIconPath": "img/tabBar/email-fill.png",
+        "text": "消息"
+      },
+      {
         "pagePath": "pages/post_blank/post_blank",
         "iconPath": "img/tabBar/add.png",
         "selectedIconPath": "img/tabBar/add-fill.png",
         "text": "发帖"
       },
       {
-        "pagePath": "pages/message/message",
-        "iconPath": "img/tabBar/email.png",
-        "selectedIconPath": "img/tabBar/email-fill.png",
-        "text": "消息"
+        "pagePath": "pages/user/user",
+        "iconPath": "img/tabBar/trust.png",
+        "selectedIconPath": "img/tabBar/trust-fill.png",
+        "text": "关于"
       },
       {
         "pagePath": "pages/user/user",
