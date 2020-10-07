@@ -30,6 +30,14 @@
   </view>
 </view>
 
+<view class="button-wrp" >
+  <view style="width: 90%; margin: 5%">
+    <button style="background: {{themeColor}}" bindtap="test">
+		  <text class="post-button-text">test</text>
+	  </button>
+  </view>
+</view>
+
 <van-cell-group title="现有未使用置顶码">
   <view wx:for='{{top_codes}}' wx:for-index="indexs" wx:for-item="item" wx:key="indexs">
     <van-cell title="{{item.top_code}}" value="{{item.expire_length}} days" />

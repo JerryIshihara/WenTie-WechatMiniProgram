@@ -557,43 +557,67 @@ Page({
                 message: "检测信息...",
                 selector: '#loading'
             });
-            wx.cloud.callFunction({
-                name: 'SecurityCheck',
-                data: {
-                    txt: that.data.itemTitle + that.data.itemDescription,
-                },
-                success: function (res) {
-                    console.log(res);
-                    Toast.clear();
-                    // 内容警告
-                    if (res.result.errCode == 87014) {
-                        Toast.fail({
-                            message: '包含敏感信息',
-                            duration: 1500,
-                            selector: '#post-fail'
-                        })
-                        db.collection('dangerous_usr').add({
-                            data: {
-                                userInfo: that.data.userInfo,
-                            },
-                            success: function (res) {
-                                console.log(res)
-                            },
-                            fail: function (res) {
-                                console.error;
-                            }
-                        })
-                    } else {
-                        Toast.clear();
-                        that.postOrModify()
-                    }
-                },
-                fail: console.error
-            })
+
+            // TO-DO: test top code legality
+            // NOTE: we do NOT support top_code modification at this point
+            if (this.data.confirmButton === '修改') {
+                this.postSecurityCheck({status: true, err_msg: "Top code not checked for modification and cannot be modified.", top_code: false})
+            } else {
+                util.verify_and_use_topcode(this.data.code, this.postSecurityCheck);
+            }
         }
     },
 
-    postOrModify: function () {
+    postSecurityCheck: function (precheck) {
+        var that = this;
+        console.log(precheck);
+        Toast.clear();
+        if(!precheck["status"])
+        {
+            Toast.fail({
+                message: precheck["err_msg"],
+                duration: 1500,
+                selector: '#post-fail'
+            })
+            return
+        }
+
+        wx.cloud.callFunction({
+            name: 'SecurityCheck',
+            data: {
+                txt: that.data.itemTitle + that.data.itemDescription,
+            },
+            success: function (res) {
+                console.log(res);
+                Toast.clear();
+                // 内容警告
+                if (res.result.errCode == 87014) {
+                    Toast.fail({
+                        message: '包含敏感信息',
+                        duration: 1500,
+                        selector: '#post-fail'
+                    })
+                    db.collection('dangerous_usr').add({
+                        data: {
+                            userInfo: that.data.userInfo,
+                        },
+                        success: function (res) {
+                            console.log(res)
+                        },
+                        fail: function (res) {
+                            console.error;
+                        }
+                    })
+                } else {
+                    Toast.clear();
+                    that.postOrModify(precheck);
+                }
+            },
+            fail: console.error
+        })
+    },
+
+    postOrModify: function (topcode_info) {
         if (this.data.confirmButton === '发布') {
             Toast.loading({
                 duration: 0,
@@ -603,23 +627,30 @@ Page({
             });
 
             var that = this
+            // add topcode to database
+            var new_data = {
+                userInfo: this.data.userInfo,
+                title: this.data.itemTitle,
+                description: this.data.itemDescription,
+                status: 'post',
+                tag: this.data.categoryValue,
+                price_offer: this.data.priceOffer,
+                price_origin: this.data.priceOrigin,
+                images: this.data.images,
+                date: new Date().getTime(),
+                num_seen: 0,
+                num_share: 0,
+                num_collected: 0,
+                gps: JSON.stringify(this.data.gps),
+                // code: that.data.code === 'WENTIE_ZHIDING' ? that.data.code : '',
+            }
+
+            if (topcode_info["top_code"]) {
+                new_data["top_expire"] = topcode_info["expire_timestamp"]
+            }
+
             db.collection('items').add({
-                data: {
-                    userInfo: this.data.userInfo,
-                    title: this.data.itemTitle,
-                    description: this.data.itemDescription,
-                    status: 'post',
-                    tag: this.data.categoryValue,
-                    price_offer: this.data.priceOffer,
-                    price_origin: this.data.priceOrigin,
-                    images: this.data.images,
-                    date: new Date().getTime(),
-                    num_seen: 0,
-                    num_share: 0,
-                    num_collected: 0,
-                    gps: JSON.stringify(this.data.gps),
-                    code: that.data.code === 'WENTIE_ZHIDING' ? that.data.code : '',
-                },
+                data: new_data,
                 success: function (res) {
                     Toast.clear()
                     console.log("物品上传成功:" + res)
