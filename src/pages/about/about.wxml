@@ -1,0 +1,48 @@
+<!--src/pages/about/about.wxml-->
+
+<view class="org-header-wrp">
+  <!-- logo -->
+	<image class="org-info-logo" src="../../img/wentie.jpg" />
+</view>
+
+	<!-- 标题 -->
+<view class="about-title-wrp">
+  <view style="display:flex;align-items:center;">
+    <text class="about-title-text">关于我们</text>
+  </view>
+</view>
+
+<!-- 机构介绍 -->
+<view class="org-description-wrp">
+  <text class="org-description-text"
+  > 描述1: 一些描述
+    描述2: 另一些描述
+  </text>
+</view>
+
+<!-- Diviver -->
+<view>
+	<van-divider contentPosition="center" stype = "background: white">公众号</van-divider>
+</view>
+
+<!-- 公众号 -->
+<view class="qr-wrp">
+  <!-- logo -->
+	<image class="qr" src="../../img/qrcode_for_gh.jpg" />
+</view>
+
+<!-- Diviver -->
+<view>
+	<van-divider contentPosition="center">合作伙伴</van-divider>
+</view>
+
+
+<!-- 图片 -->
+<!-- <view class="item-images-wrp">
+	<block wx:for="{{item.images}}" wx:key="key" wx:for-item="item">
+		<image class="item-image" src="{{item}}" mode="widthFix" data-idx="{{index}}" bindtap="preview" />
+	</block>
+</view> -->
+
+<!-- 有点hack，解决tabbar遮挡底部内容问题，好用 -->
+<view class="bottom-tabbar-space"></view>
