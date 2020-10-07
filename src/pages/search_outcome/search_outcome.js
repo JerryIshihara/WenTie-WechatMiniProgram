@@ -157,30 +157,21 @@ Page({
       gps: app.globalData.gps,
     })
     keyWord = keyWord === null ? '' : keyWord
-    db.collection('items').where(
-        _.or([
-          {
-            title: db.RegExp({
-              regexp: keyWord,
-              options: 'i',
-            }),
-            status: 'post',
-          },
-          {
-            description: db.RegExp({
-              regexp: keyWord,
-              options: 'i',
-            }),
-            status: 'post',
-          }
-        ])
-  ).get({
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'getItems',
+      data: {
+        request_from: "search",
+        keyword: keyWord
+      },
       success: function (res) {
-        console.log(res)
         _this.setData({
-          items: res.data,
+          items: res["result"]["data"],
           loading: false
         })
+      },
+      fail: function () {
+        console.error
       }
     })
   }

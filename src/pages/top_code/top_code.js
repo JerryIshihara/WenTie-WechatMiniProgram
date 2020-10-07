@@ -142,5 +142,13 @@ Page({
         wx.stopPullDownRefresh();
       }
     })
+  },
+
+  test : function () {
+    util.verify_and_use_topcode("WLP346", this.test_callback)
+  },
+
+  test_callback : function (res) {
+    console.log(res)
   }
 })

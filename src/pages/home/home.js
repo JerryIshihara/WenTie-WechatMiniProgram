@@ -38,9 +38,10 @@ Page({
     const _this = this
     wx.cloud.callFunction({
       // 云函数名称
-      name: 'fetchItems',
+      name: 'getItems',
       data: {
-        type: type
+        type: type,
+        request_from: "home"
       },
       success: function (res) {
         _this.setData({
@@ -126,17 +127,6 @@ Page({
     if (this.data.tag == '问帖') {
       this.onLoad();
     } else {
-      // db.collection('items').where({
-      //   tag: _this.data.tag,
-      //   status: 'post',
-      // }).get({
-      //   success: function (res) {
-      //     _this.setData({
-      //       loading: false,
-      //       items: res.data.reverse()
-      //     })
-      //   }
-      // })
       this.loadItems(this.data.tag);
     }
     wx.stopPullDownRefresh();
@@ -186,18 +176,6 @@ Page({
         title: e.detail.title,
       })
       this.loadItems(e.detail.title)
-      // db.collection('items').where({
-      //     tag: e.detail.title,
-      //     status: 'post',
-      //   })
-      //   .get({
-      //     success: function (res) {
-      //       _this.setData({
-      //         loading: false,
-      //         items: res.data.reverse()
-      //       })
-      //     }
-      //   })
     }
     console.log("首页-商品分类栏: " + e.detail.title)
   },
