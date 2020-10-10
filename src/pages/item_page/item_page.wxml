@@ -58,7 +58,10 @@
 		</view>
 	</view>
 </view>
-
+<!-- 发帖时间行 -->
+<view class="item-time-wrp">
+	<text class="item-description-text">发布于 {{ item_date }}</text>
+</view>
 
 <view>
 	<van-divider contentPosition="center">商品图片</van-divider>

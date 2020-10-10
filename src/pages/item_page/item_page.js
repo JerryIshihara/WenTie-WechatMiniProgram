@@ -77,8 +77,13 @@ Page({
       title: '商品详细'
     })
     if (options.item) {
+      // need to convert item posted date from timestamp to time
+      let _item = JSON.parse(decodeURIComponent(options.item));
+      let _item_date = util.formatTime( new Date(parseInt(_item.date) ) );
+
       this.setData({
-        item: JSON.parse(decodeURIComponent(options.item)),
+        item: _item,
+        item_date: _item_date,
         userInfo: wx.getStorageSync('userInfo'),
         showInstruction: wx.getStorageSync('showInstruction'),
         modified: false,
