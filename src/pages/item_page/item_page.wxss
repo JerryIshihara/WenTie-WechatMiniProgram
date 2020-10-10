@@ -37,6 +37,7 @@
     justify-content: space-between;
     padding: 40rpx;
     padding-top: 20rpx;
+    padding-bottom: 20rpx;
     background: white;
 }
 .item-offering-sign {
@@ -99,6 +100,21 @@
     color:#707070;
     font-size: 14px;
     font-weight: light;
+}
+.item-time-wrp{
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+    padding-right: 40rpx;
+    padding-bottom: 40rpx;
+    text-align: right;
+}
+.item-time-text {
+    /* width: 100%; */
+    color:#707070;
+    font-size: 14px;
+    font-weight: light;
+    padding-right: 20rpx;
 }
 
 
