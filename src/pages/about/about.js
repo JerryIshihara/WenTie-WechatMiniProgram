@@ -5,7 +5,15 @@ Page({
    * Page initial data
    */
   data: {
+    qr_images: ["../../img/about/qrcode_for_gh.jpg"]
+  },
 
+  preview: function (e) {
+    const index = e.target.dataset.idx
+    wx.previewImage({
+      current: "../../img/about/qrcode_for_gh.jpg", //this.data.qr_images[0],
+      urls: this.data.qr_images,
+    })
   },
 
   /**

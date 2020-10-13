@@ -2,21 +2,19 @@
 
 <view class="org-header-wrp">
   <!-- logo -->
-	<image class="org-info-logo" src="../../img/wentie.jpg" />
-</view>
-
-	<!-- 标题 -->
-<view class="about-title-wrp">
-  <view style="display:flex;align-items:center;">
-    <text class="about-title-text">关于我们</text>
+  <image class="org-info-logo" src="../../img/about/wentie.jpg" />
+  <view class="org-title-wrp">
+    <!-- 标题 -->
+    <text style="font-size: 16px">关于问贴</text>
+    <text class="org-description-text">多伦多华人全方位的信息交流平台</text>
   </view>
 </view>
-
-<!-- 机构介绍 -->
 <view class="org-description-wrp">
-  <text class="org-description-text"
-  > 描述1: 一些描述
-    描述2: 另一些描述
+  <text class=".org-description-text"
+  >您可以在问贴这里找到最物美价廉的二手物品，最酷的周边活动。需要其他帮助？您也可以随时发帖求助。
+
+  我们团队：我们是由来自多伦多各个大学的本科生，研究生，博士生，博士后组建的团队。我们体验了海外生活的酸甜苦辣，于是我们创立了“问帖”，希望借此为多伦多提供属于我们自己的信息平台。
+
   </text>
 </view>
 
@@ -26,9 +24,16 @@
 </view>
 
 <!-- 公众号 -->
+<view class="org-header-wrp">
+  <image class="org-info-logo" src="../../img/about/博士多大了logo.jpg" />
+  <view class="org-title-wrp">
+    <text style="font-size: 16px">博士多大了</text>
+    <text class="org-description-text">我们团队的公众号</text>
+  </view>
+</view>
 <view class="qr-wrp">
-  <!-- logo -->
-	<image class="qr" src="../../img/qrcode_for_gh.jpg" />
+  <!-- QR -->
+  <image class="qr" src="{{qr_images[0]}}" bindtap="preview" />
 </view>
 
 <!-- Diviver -->
@@ -46,3 +51,4 @@
 
 <!-- 有点hack，解决tabbar遮挡底部内容问题，好用 -->
 <view class="bottom-tabbar-space"></view>
+
