@@ -7,7 +7,8 @@
     "pages/post_blank/post_blank",
     "pages/item_page/item_page",
     "pages/message/message",
-    "pages/top_code/top_code"
+    "pages/top_code/top_code",
+    "pages/about/about"
   ],
   "permission": {
     "scope.userLocation": {
@@ -46,7 +47,7 @@
         "text": "发帖"
       },
       {
-        "pagePath": "pages/user/user",
+        "pagePath": "pages/about/about",
         "iconPath": "img/tabBar/trust.png",
         "selectedIconPath": "img/tabBar/trust-fill.png",
         "text": "关于"

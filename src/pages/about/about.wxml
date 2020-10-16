@@ -1,0 +1,54 @@
+<!--src/pages/about/about.wxml-->
+
+<view class="org-header-wrp">
+  <!-- logo -->
+  <image class="org-info-logo" src="../../img/about/wentie.jpg" />
+  <view class="org-title-wrp">
+    <!-- 标题 -->
+    <text style="font-size: 16px">关于问贴</text>
+    <text class="org-description-text">多伦多华人全方位的信息交流平台</text>
+  </view>
+</view>
+<view class="org-description-wrp">
+  <text class=".org-description-text"
+  >您可以在问贴这里找到最物美价廉的二手物品，最酷的周边活动。需要其他帮助？您也可以随时发帖求助。
+
+  我们团队：我们是由来自多伦多各个大学的本科生，研究生，博士生，博士后组建的团队。我们体验了海外生活的酸甜苦辣，于是我们创立了“问帖”，希望借此为多伦多提供属于我们自己的信息平台。
+
+  </text>
+</view>
+
+<!-- Diviver -->
+<view>
+	<van-divider contentPosition="center" stype = "background: white">公众号</van-divider>
+</view>
+
+<!-- 公众号 -->
+<view class="org-header-wrp">
+  <image class="org-info-logo" src="../../img/about/博士多大了logo.jpg" />
+  <view class="org-title-wrp">
+    <text style="font-size: 16px">博士多大了</text>
+    <text class="org-description-text">我们团队的公众号</text>
+  </view>
+</view>
+<view class="qr-wrp">
+  <!-- QR -->
+  <image class="qr" src="{{qr_images[0]}}" bindtap="preview" />
+</view>
+
+<!-- Diviver -->
+<view>
+	<van-divider contentPosition="center">合作伙伴</van-divider>
+</view>
+
+
+<!-- 图片 -->
+<!-- <view class="item-images-wrp">
+	<block wx:for="{{item.images}}" wx:key="key" wx:for-item="item">
+		<image class="item-image" src="{{item}}" mode="widthFix" data-idx="{{index}}" bindtap="preview" />
+	</block>
+</view> -->
+
+<!-- 有点hack，解决tabbar遮挡底部内容问题，好用 -->
+<view class="bottom-tabbar-space"></view>
+
