@@ -36,4 +36,4 @@
 
 
 <!-- 消息订阅 -->
-<subscribe-auth show="{{ showAuth }}"/>
+<!-- <subscribe-auth show="{{ showAuth }}"/> -->

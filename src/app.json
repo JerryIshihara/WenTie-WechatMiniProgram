@@ -8,6 +8,7 @@
     "pages/item_page/item_page",
     "pages/message/message",
     "pages/top_code/top_code",
+    "pages/activity/activity",
     "pages/about/about"
   ],
   "permission": {
