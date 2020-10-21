@@ -19,7 +19,7 @@ Page({
     type: ['ask', 'give'],
     themeColor: app.globalData.themeColour,
     gps: null,
-    showAuth: false,
+    // showAuth: false,
   },
 
   /**
@@ -38,19 +38,19 @@ Page({
     // })
     app.subscribe();
     db.collection('item_asked').where({
-        item: {
-          _openid: app.globalData.openid
-        }
-      })
-      .get({
-        success: function (res) {
-          console.log(res)
-          _this.setData({
-            loading: false,
-            items: res.data.reverse()
-          })
-        }
-      })
+      item: {
+        _openid: app.globalData.openid
+      }
+    })
+    .get({
+      success: function (res) {
+        console.log(res)
+        _this.setData({
+          loading: false,
+          items: res.data.reverse()
+        })
+      }
+    })
   },
 
   /**
