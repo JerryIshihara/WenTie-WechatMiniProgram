@@ -5,9 +5,9 @@
 
 <view style="display:flex;flex-direction:row;flex-wrap:wrap;width:100%;justify-content:space-around">
 	<!-- 左列 -->
-	<view wx:for="{{ 2 }}" wx:for-item="mod" wx:key="key" style="display:flex;flex-direction:column;flex-wrap:wrap;width:48%;margin:1px;">
+	<view wx:for="{{ 2 }}" wx:for-item="mod" wx:key="key" class='card_container'>
 		<!-- 分类下的物品 -->
-		<view style="display:flex;position:relative;flex-direction:column;width:100%;background-color:white;margin:3px 0px;" wx:for="{{ items }}" wx:for-item="item" wx:key="key" wx:for-index="index" bindtap="onTap" data-item="{{ item }}" wx:if="{{index%2==mod}}">
+		<view class="card" wx:for="{{ items }}" wx:for-item="item" wx:key="key" wx:for-index="index" bindtap="onTap" data-item="{{ item }}" wx:if="{{index%2==mod}}">
 			<van-tag size='medium' style="display:flex;position:absolute;top:5px" type="danger" wx:if="{{type === '' && item.code === 'WENTIE_ZHIDING'}}">置顶</van-tag>
 			<!-- 图片 -->
 			<image class="thumb" src="{{ item.images[0] }}" mode="widthFix" /> 

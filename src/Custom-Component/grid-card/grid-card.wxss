@@ -13,6 +13,23 @@
     justify-content: space-between;
     align-items: center;
 }
+.card_container {
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    width:48%;
+    margin:1px;
+}
+.card {
+    display:flex;
+    position:relative;
+    flex-direction:column;
+    width:100%;
+    background-color:white;
+    margin:5px 0px;
+    box-shadow:0 2rpx 5rpx 0rpx #66666650;
+    -webkit-box-shadow:0px 2px 5px 0px #66666650;
+}
 .title {
     font-size: 14px;
     font-weight: 400;
