@@ -52,8 +52,8 @@ App({
         wx.login({
             success: res => {
                 // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                var appid = 'wx949ef36f48aba565' //填写微信小程序appid
-                var secret = '7cf646deb617ba8b0bbbd2f5561690f8' //填写微信小程序secret
+                var appid = '' //填写微信小程序appid
+                var secret = '' //填写微信小程序secret
                 var code = res.code
                 var url = 'https://api.weixin.qq.com/sns/jscode2session' +
                     '?appid=' + appid +
